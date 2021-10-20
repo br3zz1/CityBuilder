@@ -12,9 +12,19 @@ public class Tile : MonoBehaviour
 
     private TileObject temporaryObject;
 
+    public int x { get; private set; }
+    public int y { get; private set; }
+
     void Start()
     {
         GetComponent<MeshRenderer>().material.color = color;
+        
+    }
+
+    public void SetCoords(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
     }
 
     public void BuildTileObject(TileObject prefab)
@@ -43,6 +53,10 @@ public class Tile : MonoBehaviour
 
     public void OnMouseEnter()
     {
+        if(x < 37 || x > 63 || y < 37 || y > 63)
+        {
+            return;
+        }
         ToolController.Instance.selected = this;
         if(ToolController.Instance.tool == Tool.Build)
         {
@@ -66,10 +80,5 @@ public class Tile : MonoBehaviour
             Destroy(temporaryObject.gameObject);
             temporaryObject = null;
         }
-    }
-
-    void Update()
-    {
-        
     }
 }

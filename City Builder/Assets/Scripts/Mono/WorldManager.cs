@@ -45,6 +45,7 @@ public class WorldManager : MonoBehaviour
         world[coord.x, coord.y] = tileObj.GetComponent<Tile>();
         tileObj.name = "Tile [" + coord.x + "," + coord.y + "]";
         tileObj.transform.parent = transform;
+        tileObj.GetComponent<Tile>().SetCoords(coord.x, coord.y);
     }
 
     void Generation(Vector2Int coord)
