@@ -5,9 +5,6 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
 
-    [SerializeField]
-    private Color color;
-
     public TileObject tileObject { get; private set; }
 
     private TileObject temporaryObject;
@@ -15,16 +12,18 @@ public class Tile : MonoBehaviour
     public int x { get; private set; }
     public int y { get; private set; }
 
+    public bool untouchable;
+
     void Start()
     {
-        GetComponent<MeshRenderer>().material.color = color;
         
     }
 
-    public void SetCoords(int x, int y)
+    public void SetCoords(int x, int y, Material m)
     {
         this.x = x;
         this.y = y;
+        GetComponent<MeshRenderer>().material = m;
     }
 
     public void BuildTileObject(TileObject prefab)
@@ -39,6 +38,11 @@ public class Tile : MonoBehaviour
         TileObject t = obj.GetComponent<TileObject>();
         tileObject = t;
         t.Init(this);
+        if(GameManager.Instance != null)
+        {
+            GameObject g = Instantiate(GameManager.Instance.SmokeEffect, transform.position, Quaternion.identity);
+            Destroy(g, 1.5f);
+        }
         OnMouseExit();
     }
 
@@ -53,10 +57,8 @@ public class Tile : MonoBehaviour
 
     public void OnMouseEnter()
     {
-        if(x < 37 || x > 63 || y < 37 || y > 63)
-        {
-            return;
-        }
+        
+        if (untouchable) return;
         ToolController.Instance.hoveringOver = this;
     }
 

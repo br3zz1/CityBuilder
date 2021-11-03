@@ -18,12 +18,13 @@ public class Road : TileObject
 
     public override void Init(Tile tile)
     {
-        base.Init(tile);
-
+        if(!preview)
+        {
+            base.Init(tile);
+            UpdateSidewalks();
+            UpdateNeighboursSidewalks();
+        }
         UpdateColors(roadColor, sidewalkColor);
-
-        UpdateSidewalks();
-        UpdateNeighboursSidewalks();
     }
 
     private void UpdateColors(Color roadC, Color sidewalkC)

@@ -18,6 +18,11 @@ public class WorldManager : MonoBehaviour
     private Tile[,] world;
 
     private bool[,] roadLayout;
+
+    [SerializeField]
+    private Material tileMaterial;
+    [SerializeField]
+    private Material tileUntouchableMaterial;
     
     void Start()
     {
@@ -45,7 +50,14 @@ public class WorldManager : MonoBehaviour
         world[coord.x, coord.y] = tileObj.GetComponent<Tile>();
         tileObj.name = "Tile [" + coord.x + "," + coord.y + "]";
         tileObj.transform.parent = transform;
-        tileObj.GetComponent<Tile>().SetCoords(coord.x, coord.y);
+        Tile tile = tileObj.GetComponent<Tile>();
+        Material m = tileMaterial;
+        if (coord.x < 37 || coord.x > 63 || coord.y < 37 || coord.y > 63)
+        {
+            tile.untouchable = true;
+            m = tileUntouchableMaterial;
+        }
+        tile.SetCoords(coord.x, coord.y, m);
     }
 
     void Generation(Vector2Int coord)

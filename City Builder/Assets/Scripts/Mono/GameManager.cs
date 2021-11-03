@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
+    public GameObject SmokeEffect;
+
     // Start is called before the first frame update
     void Start()
     {

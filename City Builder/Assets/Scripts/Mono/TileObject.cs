@@ -8,6 +8,8 @@ public abstract class TileObject : MonoBehaviour
     public Tile tile { get; protected set; }
 
     public Dictionary<string, string> meta;
+
+    public bool preview;
     
     public virtual void Init(Tile tile)
     {
