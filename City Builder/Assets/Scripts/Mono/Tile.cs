@@ -57,28 +57,11 @@ public class Tile : MonoBehaviour
         {
             return;
         }
-        ToolController.Instance.selected = this;
-        if(ToolController.Instance.tool == Tool.Build)
-        {
-            if(tileObject == null && ToolController.Instance.tileObjectBuildPrefab != null)
-            {
-                ToolController.Instance.tileObjectBuildPrefab.gameObject.layer = 2;
-                GameObject obj = Instantiate(ToolController.Instance.tileObjectBuildPrefab.gameObject, transform.position, Quaternion.identity);
-                ToolController.Instance.tileObjectBuildPrefab.gameObject.layer = 0;
-                obj.transform.parent = transform;
-                temporaryObject = obj.GetComponent<TileObject>();
-                temporaryObject.TempInit();
-                temporaryObject.ApplyHoverMaterial(new Color(0.7f,0.7f,1,0.5f));
-            }
-        }
+        ToolController.Instance.hoveringOver = this;
     }
 
     public void OnMouseExit()
     {
-        if(temporaryObject != null)
-        {
-            Destroy(temporaryObject.gameObject);
-            temporaryObject = null;
-        }
+        if ((object)ToolController.Instance.hoveringOver == this) ToolController.Instance.hoveringOver = null;
     }
 }
