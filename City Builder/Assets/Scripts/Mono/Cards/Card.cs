@@ -65,11 +65,15 @@ public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPoi
     public void OnPointerEnter(PointerEventData eventData)
     {
         mouse_over = true;
+        CardManager.Instance.hoveringOver = this;
+        CardManager.Instance.UpdateCardPositions();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         mouse_over = false;
+        if (CardManager.Instance.hoveringOver == this) CardManager.Instance.hoveringOver = null;
+        CardManager.Instance.UpdateCardPositions();
     }
 
     public void OnPointerClick(PointerEventData eventData)

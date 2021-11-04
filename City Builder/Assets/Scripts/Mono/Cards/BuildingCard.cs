@@ -57,7 +57,7 @@ public class BuildingCard : Card
             return false;
         }
         Return();
-        Destroy(gameObject);
+        CardManager.Instance.RemoveCard(this);
         return true;
     }
 
