@@ -309,7 +309,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 323ee51ff7cd58347a6190fdf39b103c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roadColor: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0}
+  preview: 0
+  roadColor: {r: 0.4245283, g: 0.41575006, b: 0.3984959, a: 0}
+  mainRoadColor: {r: 0.29411766, g: 0.29411766, b: 0.29411766, a: 0}
   sidewalkColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0}
   sidewalks:
   - {fileID: 8148736685079375232}
@@ -321,6 +323,7 @@ MonoBehaviour:
   - {fileID: 5792901726709635162}
   - {fileID: 7599358790931947690}
   road: {fileID: 7480640531951106709}
+  main: 0
 --- !u!1 &6483327767885439696
 GameObject:
   m_ObjectHideFlags: 0

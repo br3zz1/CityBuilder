@@ -26,7 +26,7 @@ public class Tile : MonoBehaviour
         GetComponent<MeshRenderer>().material = m;
     }
 
-    public void BuildTileObject(TileObject prefab)
+    public void BuildTileObject(TileObject prefab, bool init = true)
     {
         if(prefab.gameObject == null)
         {
@@ -37,7 +37,7 @@ public class Tile : MonoBehaviour
         obj.transform.parent = transform;
         TileObject t = obj.GetComponent<TileObject>();
         tileObject = t;
-        t.Init(this);
+        if(init) t.Init(this);
         if(GameManager.Instance != null)
         {
             GameObject g = Instantiate(GameManager.Instance.SmokeEffect, transform.position, Quaternion.identity);
@@ -52,7 +52,10 @@ public class Tile : MonoBehaviour
         TileObject tObj = tileObject;
         tileObject = null;
         tObj.Terminate();
+        GameObject g = Instantiate(GameManager.Instance.SmokeEffect, transform.position, Quaternion.identity);
+        Destroy(g, 1.5f);
         Destroy(tObj.gameObject);
+        GetComponent<MeshRenderer>().enabled = true;
     }
 
     public void OnMouseEnter()

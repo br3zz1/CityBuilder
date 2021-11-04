@@ -8,6 +8,9 @@ public class Road : TileObject
     private Color roadColor;
 
     [SerializeField]
+    private Color mainRoadColor;
+
+    [SerializeField]
     private Color sidewalkColor;
 
     [SerializeField]
@@ -16,23 +19,26 @@ public class Road : TileObject
     [SerializeField]
     private GameObject road;
 
+    public bool main;
+
     public override void Init(Tile tile)
     {
-        if(!preview)
+        base.Init(tile);
+        if (!preview)
         {
-            base.Init(tile);
             UpdateSidewalks();
             UpdateNeighboursSidewalks();
         }
-        UpdateColors(roadColor, sidewalkColor);
+        UpdateColors();
     }
 
-    private void UpdateColors(Color roadC, Color sidewalkC)
+    private void UpdateColors()
     {
-        road.GetComponent<MeshRenderer>().material.color = roadC;
+        if(main) road.GetComponent<MeshRenderer>().material.color = mainRoadColor;
+        else road.GetComponent<MeshRenderer>().material.color = roadColor;
         foreach (GameObject sidewalk in sidewalks)
         {
-            sidewalk.GetComponent<MeshRenderer>().material.color = sidewalkC;
+            sidewalk.GetComponent<MeshRenderer>().material.color = sidewalkColor;
         }
     }
 

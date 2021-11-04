@@ -11,13 +11,15 @@ public class WorldManager : MonoBehaviour
     [SerializeField]
     private int worldSize;
     [SerializeField]
+    private int worldSeed;
+    [SerializeField]
     private GameObject tilePrefab;
     [SerializeField]
     private Road roadPrefab;
 
     private Tile[,] world;
 
-    private bool[,] roadLayout;
+    private RoadType[,] roadLayout;
 
     [SerializeField]
     private Material tileMaterial;
@@ -29,7 +31,7 @@ public class WorldManager : MonoBehaviour
         Instance = this;
         world = new Tile[worldSize, worldSize];
         RoadGenerator.townRadius = 7;
-        roadLayout = RoadGenerator.GenerateRoadLayout(5);
+        roadLayout = RoadGenerator.GenerateRoadLayout(worldSeed);
         GenerateWorld();
     }
 
@@ -62,9 +64,18 @@ public class WorldManager : MonoBehaviour
 
     void Generation(Vector2Int coord)
     {
-        if (roadLayout[coord.x, coord.y])
+        if (roadLayout[coord.x, coord.y] != RoadType.None)
         {
-            world[coord.x, coord.y].BuildTileObject(roadPrefab);
+            if(roadLayout[coord.x, coord.y] == RoadType.Main)
+            {
+                world[coord.x, coord.y].BuildTileObject(roadPrefab, false);
+                ((Road)world[coord.x, coord.y].tileObject).main = true;
+                world[coord.x, coord.y].tileObject.Init(world[coord.x, coord.y]);
+            }
+            else if(coord.x > 38 && coord.x < 62 && coord.y > 38 && coord.y < 62)
+            {
+                world[coord.x, coord.y].BuildTileObject(roadPrefab);
+            }
         }
     }
 

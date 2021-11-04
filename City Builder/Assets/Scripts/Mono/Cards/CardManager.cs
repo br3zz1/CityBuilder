@@ -19,12 +19,12 @@ public class CardManager : MonoBehaviour
         Instance = this;
         holdingCards = new List<Card>();
         AddCard(0);
-        AddCard(1);
-        AddCard(0);
-        AddCard(1);
-        AddCard(0);
-        AddCard(1);
-        AddCard(0);
+        AddCard(3);
+        AddCard(3);
+        AddCard(3);
+        AddCard(3);
+        AddCard(3);
+        AddCard(2);
     }
 
     // Update is called once per frame
@@ -36,10 +36,11 @@ public class CardManager : MonoBehaviour
     public void UpdateCardPositions()
     {
         int i = 0;
-        Vector3 offset = new Vector3(-40f,0,0);
+        Vector3 offset = new Vector3(-70f,0,0);
         if (hoveringOver == null) offset = Vector3.zero;
         foreach (Card card in holdingCards)
         {
+            card.GetComponent<RectTransform>().SetSiblingIndex(i);
             if (card == hoveringOver)
             {
                 offset.x = -offset.x;
@@ -56,8 +57,9 @@ public class CardManager : MonoBehaviour
 
     public void AddCard(int cardIPindex)
     {
-        GameObject cardGo = Instantiate(cardIPs[cardIPindex].card.gameObject, new Vector3(0, 200f, 0), Quaternion.identity);
-        cardGo.transform.parent = transform;
+        GameObject cardGo = Instantiate(cardIPs[cardIPindex].card.gameObject, new Vector3(-100f, 0, 0), Quaternion.identity);
+        cardGo.transform.SetParent(transform, true);
+        cardGo.transform.localScale = Vector3.one;
         Card card = cardGo.GetComponent<Card>();
         holdingCards.Insert(0, card);
         UpdateCardPositions();

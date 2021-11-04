@@ -50,7 +50,7 @@ public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPoi
 
     void UpdatePosition()
     {
-        Vector3 finalDesiredPos = desiredPosition + Vector3.up * 80f;
+        Vector3 finalDesiredPos = desiredPosition + Vector3.up * 50f;
         if (hoverable)
         {
             if (mouse_over) finalDesiredPos += Vector3.up * 50f;
