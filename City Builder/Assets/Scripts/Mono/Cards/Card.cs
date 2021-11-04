@@ -53,7 +53,7 @@ public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPoi
         Vector3 finalDesiredPos = desiredPosition + Vector3.up * 80f;
         if (hoverable)
         {
-            if (mouse_over) finalDesiredPos += Vector3.up * 20f;
+            if (mouse_over) finalDesiredPos += Vector3.up * 50f;
             transform.localPosition = Vector3.Lerp(transform.localPosition, finalDesiredPos, Time.deltaTime * 10f);
         }
         else

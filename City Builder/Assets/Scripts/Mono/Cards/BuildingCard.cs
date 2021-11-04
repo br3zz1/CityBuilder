@@ -58,6 +58,7 @@ public class BuildingCard : Card
         }
         Return();
         CardManager.Instance.RemoveCard(this);
+        CardManager.Instance.AddCard(1);
         return true;
     }
 

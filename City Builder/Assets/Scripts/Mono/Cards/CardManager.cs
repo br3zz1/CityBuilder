@@ -19,11 +19,11 @@ public class CardManager : MonoBehaviour
         Instance = this;
         holdingCards = new List<Card>();
         AddCard(0);
+        AddCard(1);
         AddCard(0);
+        AddCard(1);
         AddCard(0);
-        AddCard(0);
-        AddCard(0);
-        AddCard(0);
+        AddCard(1);
         AddCard(0);
     }
 
@@ -36,12 +36,19 @@ public class CardManager : MonoBehaviour
     public void UpdateCardPositions()
     {
         int i = 0;
-        Vector3 offset = new Vector3(-20f,0,0);
+        Vector3 offset = new Vector3(-40f,0,0);
         if (hoveringOver == null) offset = Vector3.zero;
         foreach (Card card in holdingCards)
         {
-            if (card == hoveringOver) offset.x = -offset.x;
-            card.desiredPosition = new Vector3(-(holdingCards.Count / 2f) * 50f + i * 50f, 0f, 0f);
+            if (card == hoveringOver)
+            {
+                offset.x = -offset.x;
+                card.desiredPosition = new Vector3(-(holdingCards.Count / 2f) * 50f + i * 50f + 25f, 0f, 0f);
+            }
+            else
+            {
+                card.desiredPosition = new Vector3(-(holdingCards.Count / 2f) * 50f + i * 50f + 25f, 0f, 0f) + offset;
+            }
             i++;
         }
     }
@@ -52,13 +59,15 @@ public class CardManager : MonoBehaviour
         GameObject cardGo = Instantiate(cardIPs[cardIPindex].card.gameObject, new Vector3(0, 200f, 0), Quaternion.identity);
         cardGo.transform.parent = transform;
         Card card = cardGo.GetComponent<Card>();
-        holdingCards.Add(card);
+        holdingCards.Insert(0, card);
         UpdateCardPositions();
     }
 
     public void RemoveCard(Card card)
     {
         holdingCards.Remove(card);
-        Destroy(card);
+        card.Return();
+        Destroy(card.gameObject);
+        UpdateCardPositions();
     }
 }

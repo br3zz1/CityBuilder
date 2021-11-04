@@ -1057,6 +1057,9 @@ MonoBehaviour:
   cardIPs:
   - cardCount: 2
     card: {fileID: 2013292166273541218, guid: a07107799d557e443a6d2353ecd02186, type: 3}
+  - cardCount: 2
+    card: {fileID: 2013292166273541218, guid: d02512eab609df545add4a23902ed913, type: 3}
+  hoveringOver: {fileID: 0}
 --- !u!1 &1972444015
 GameObject:
   m_ObjectHideFlags: 0

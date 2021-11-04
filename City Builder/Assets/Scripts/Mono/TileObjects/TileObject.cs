@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class TileObject : MonoBehaviour
+public class TileObject : MonoBehaviour
 {
 
     public Tile tile { get; protected set; }
