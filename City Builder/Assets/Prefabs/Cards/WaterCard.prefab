@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 2013292166273541212}
   - component: {fileID: 2013292166273541218}
   m_Layer: 5
-  m_Name: Water
+  m_Name: WaterCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

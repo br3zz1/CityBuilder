@@ -14,6 +14,9 @@ public class Road : TileObject
     private Color sidewalkColor;
 
     [SerializeField]
+    private Color mainSidewalkColor;
+
+    [SerializeField]
     private GameObject[] sidewalks;
 
     [SerializeField]
@@ -38,7 +41,8 @@ public class Road : TileObject
         else road.GetComponent<MeshRenderer>().material.color = roadColor;
         foreach (GameObject sidewalk in sidewalks)
         {
-            sidewalk.GetComponent<MeshRenderer>().material.color = sidewalkColor;
+            if (main) sidewalk.GetComponent<MeshRenderer>().material.color = mainSidewalkColor;
+            else sidewalk.GetComponent<MeshRenderer>().material.color = sidewalkColor;
         }
     }
 
