@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldSize: 100
-  worldSeed: 105
+  worldSeed: 283
   tilePrefab: {fileID: 5736982414527788486, guid: 4484c106134793d42af12a5d1eef3258, type: 3}
   roadPrefab: {fileID: 8396950314907248606, guid: 605805a25fcfc9b4eb721ea1324e26b8, type: 3}
   tileMaterial: {fileID: 2100000, guid: dd546246ed045c5488a51fa3a1d34e2d, type: 2}
