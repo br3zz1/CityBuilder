@@ -129,22 +129,32 @@ public static class RoadGenerator
 
     private static void GenerateMainRoad(Vector2Int direction, ref RoadType[,] layout, ref int numRoads)
     {
+
         Vector2Int position = new Vector2Int(50, 50);
         int turns = Random.Range(4, 8);
         Vector2Int currentDirection = direction;
+
+        // Posune o 1 políèko daným smìrem a zapsání políèka jako hlavní silnici
+        void MakeRoadAndMove(ref RoadType[,] layout, ref int numRoads)
+        {
+            position += currentDirection;
+            layout[position.x, position.y] = RoadType.Main;
+            if (position.x > 50 - townRadius && position.x < 50 + townRadius && position.y > 50 - townRadius && position.y < 50 + townRadius) numRoads++;
+        }
+
+        // Generace segmentù hlavní silnice
+        // První segment má délku mezi 7 a 11, další segmenty mezi 3 a 6
         for (int i = 0; i < turns; i++)
         {
             int len = 0;
+            
             if (i > 0) len = Random.Range(3, 6);
             else len = Random.Range(7, 11);
             for (int j = 0; j < len; j++)
             {
-                position += currentDirection;
-                layout[position.x, position.y] = RoadType.Main;
-                if (position.x > 50 - townRadius && position.x < 50 + townRadius && position.y > 50 - townRadius && position.y < 50 + townRadius) numRoads++;
+                MakeRoadAndMove(ref layout, ref numRoads);
             }
 
-            // Direction generating
             if (currentDirection == direction)
             {
                 int nDir = Random.Range(0, 3);
@@ -167,11 +177,11 @@ public static class RoadGenerator
             }
         }
 
+        // Dotáhnutí silnice na konec mapy
+        currentDirection = direction;
         while (position.x > 0 && position.x < 99 && position.y > 0 && position.y < 99)
         {
-            position += direction;
-            layout[position.x, position.y] = RoadType.Main;
-            if (position.x > 50 - townRadius && position.x < 50 + townRadius && position.y > 50 - townRadius && position.y < 50 + townRadius) numRoads++;
+            MakeRoadAndMove(ref layout, ref numRoads);
         }
 
     }
