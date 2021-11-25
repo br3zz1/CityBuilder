@@ -28,23 +28,8 @@ public class Water : TileObject
             tile.GetComponent<MeshRenderer>().enabled = false;
             UpdateShores();
             UpdateNeighboursShores();
-            Testio();
         }
         UpdateColors();
-    }
-
-    public void Testio()
-    {
-        List<RoadDistance> objects = new List<RoadDistance>();
-        foreach (KeyValuePair<string, Tile> n in neighbours)
-        {
-            if (n.Value.tileObject is Road) WorldManager.Instance.RecursiveRoadSearch((Road)n.Value.tileObject, 0, 12, ref objects);
-        }
-
-        foreach(RoadDistance rd in objects)
-        {
-            Debug.Log(rd.distance);
-        }
     }
 
     private void UpdateColors()

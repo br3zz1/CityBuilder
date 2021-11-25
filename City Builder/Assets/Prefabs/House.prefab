@@ -90,7 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8038977626592947741}
-  - component: {fileID: 1345657415438534137}
+  - component: {fileID: 1255474128831391746}
   - component: {fileID: 9094068738059554682}
   m_Layer: 0
   m_Name: House
@@ -114,7 +114,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1345657415438534137
+--- !u!114 &1255474128831391746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8038977626592947738}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca2c95f5ce7ffa84889ed030c3871e55, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a244377fba6b1547b939df51f93433f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   preview: 0

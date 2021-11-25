@@ -174,7 +174,7 @@ MonoBehaviour:
   cost: 20
   desiredPosition: {x: 0, y: 0, z: 0}
   hoverable: 1
-  buildingPrefab: {fileID: 1345657415438534137, guid: e13035848c0cb624d89d1e0a640cbd8e, type: 3}
+  buildingPrefab: {fileID: 1255474128831391746, guid: e13035848c0cb624d89d1e0a640cbd8e, type: 3}
 --- !u!1 &2013292166483860492
 GameObject:
   m_ObjectHideFlags: 0

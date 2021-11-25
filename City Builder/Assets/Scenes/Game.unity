@@ -483,6 +483,7 @@ MonoBehaviour:
   roadPrefab: {fileID: 8396950314907248606, guid: 605805a25fcfc9b4eb721ea1324e26b8, type: 3}
   tileMaterial: {fileID: 2100000, guid: dd546246ed045c5488a51fa3a1d34e2d, type: 2}
   tileUntouchableMaterial: {fileID: 2100000, guid: e1b8361548181dc4ba5ca6e78498169a, type: 2}
+  calculatedScore: 0
 --- !u!4 &887645578
 Transform:
   m_ObjectHideFlags: 0
