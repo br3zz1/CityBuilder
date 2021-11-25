@@ -31,6 +31,7 @@ public class BulldozeCard : Card
                 }
             }
             tileObject.tile.TerminateTileObject();
+            GameManager.Instance.UpdateScore();
             Return();
             CardManager.Instance.RemoveCard(this);
             CardManager.Instance.AddCard(Random.Range(0, 4));

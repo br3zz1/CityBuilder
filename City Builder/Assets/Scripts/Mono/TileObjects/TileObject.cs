@@ -36,6 +36,11 @@ public class TileObject : MonoBehaviour
 
     }
 
+    public virtual int CalculateScore()
+    {
+        return 0;
+    }
+
     public void ChangeColor(Color color)
     {
         bool def = defaultColors.Count < 1;

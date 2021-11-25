@@ -25,6 +25,8 @@ public class WorldManager : MonoBehaviour
     private Material tileMaterial;
     [SerializeField]
     private Material tileUntouchableMaterial;
+
+    public int calculatedScore;
     
     void Start()
     {
@@ -35,9 +37,19 @@ public class WorldManager : MonoBehaviour
         GenerateWorld();
     }
 
-    void Update()
+    public void CalculateScore()
     {
-        
+        calculatedScore = 0;
+        LoopCoordinates(Calculate, new Vector2Int(worldSize, worldSize));
+    }
+
+    void Calculate(Vector2Int coord)
+    {
+        TileObject tObj = world[coord.x, coord.y].tileObject;
+        if(tObj != null)
+        {
+            calculatedScore += tObj.CalculateScore();
+        }
     }
 
     void GenerateWorld()
@@ -119,4 +131,38 @@ public class WorldManager : MonoBehaviour
             }
         }
     }
+
+    public void RecursiveRoadSearch(Road road, int distance, int maxDistance, ref List<RoadDistance> objects)
+    {
+        if (distance > maxDistance) return;
+
+        foreach (KeyValuePair<string, Tile> n in road.neighbours)
+        {
+            if (n.Value.tileObject is Road)
+            {
+                Road r = (Road)n.Value.tileObject;
+                RecursiveRoadSearch(r, distance + 1, maxDistance, ref objects);
+            }
+            else if (n.Value.tileObject != null)
+            {
+                bool newDist = true;
+                foreach(RoadDistance rd in objects)
+                {
+                    if(rd.obj == n.Value.tileObject)
+                    {
+                        newDist = false;
+                        rd.distance = Mathf.Min(rd.distance, distance);
+                    }
+                }
+                if (newDist) objects.Add(new RoadDistance() { distance = distance, obj = n.Value.tileObject });
+            }
+        }
+    }
+    
+}
+
+public class RoadDistance
+{
+    public int distance;
+    public TileObject obj;
 }

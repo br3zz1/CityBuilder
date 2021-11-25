@@ -24,9 +24,12 @@ public class Road : TileObject
 
     public bool main;
 
+    public Dictionary<string, Tile> neighbours;
+
     public override void Init(Tile tile)
     {
         base.Init(tile);
+        neighbours = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
         if (!preview)
         {
             UpdateSidewalks();
@@ -55,8 +58,8 @@ public class Road : TileObject
 
     private void UpdateNeighboursSidewalks()
     {
-        Dictionary<string, Tile> neigh = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
-        foreach (KeyValuePair<string, Tile> n in neigh)
+        
+        foreach (KeyValuePair<string, Tile> n in neighbours)
         {
             if (n.Value.tileObject is Road) ((Road)n.Value.tileObject).UpdateSidewalks();
         }
@@ -64,8 +67,7 @@ public class Road : TileObject
 
     public void UpdateSidewalks()
     {
-        Dictionary<string, Tile> neigh = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
-        foreach(KeyValuePair<string, Tile> n in neigh)
+        foreach(KeyValuePair<string, Tile> n in neighbours)
         {
             if (n.Key == "N") {
                 if (n.Value.tileObject is Road) sidewalks[0].SetActive(false); else sidewalks[0].SetActive(true);

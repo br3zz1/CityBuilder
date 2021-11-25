@@ -76,6 +76,7 @@ public class BuildingCard : Card
                 return false;
             }
             tile.BuildTileObject(buildingPrefab);
+            GameManager.Instance.UpdateScore();
 
             if (buildingPreview != null)
             {

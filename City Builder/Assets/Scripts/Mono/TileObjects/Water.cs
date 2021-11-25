@@ -17,16 +17,34 @@ public class Water : TileObject
     [SerializeField]
     private GameObject water;
 
+    private Dictionary<string, Tile> neighbours;
+
     public override void Init(Tile tile)
     {
         base.Init(tile);
+        neighbours = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
         if (!preview)
         {
             tile.GetComponent<MeshRenderer>().enabled = false;
             UpdateShores();
             UpdateNeighboursShores();
+            Testio();
         }
         UpdateColors();
+    }
+
+    public void Testio()
+    {
+        List<RoadDistance> objects = new List<RoadDistance>();
+        foreach (KeyValuePair<string, Tile> n in neighbours)
+        {
+            if (n.Value.tileObject is Road) WorldManager.Instance.RecursiveRoadSearch((Road)n.Value.tileObject, 0, 12, ref objects);
+        }
+
+        foreach(RoadDistance rd in objects)
+        {
+            Debug.Log(rd.distance);
+        }
     }
 
     private void UpdateColors()
@@ -45,10 +63,19 @@ public class Water : TileObject
         UpdateNeighboursShores();
     }
 
+    public override int CalculateScore()
+    {
+        int score = 0;
+        foreach (KeyValuePair<string, Tile> n in neighbours)
+        {
+            if (n.Value.tileObject is Water) score += 20;
+        }
+        return score;
+    }
+
     private void UpdateNeighboursShores()
     {
-        Dictionary<string, Tile> neigh = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
-        foreach (KeyValuePair<string, Tile> n in neigh)
+        foreach (KeyValuePair<string, Tile> n in neighbours)
         {
             if (n.Value.tileObject is Water) ((Water)n.Value.tileObject).UpdateShores();
         }
@@ -56,8 +83,7 @@ public class Water : TileObject
 
     public void UpdateShores()
     {
-        Dictionary<string, Tile> neigh = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
-        foreach (KeyValuePair<string, Tile> n in neigh)
+        foreach (KeyValuePair<string, Tile> n in neighbours)
         {
             if (n.Key == "N")
             {

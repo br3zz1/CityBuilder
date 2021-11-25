@@ -10,9 +10,22 @@ public class GameManager : MonoBehaviour
 
     public GameObject SmokeEffect;
 
+    public Text scoreText;
+    public Text scoreTextShadow;
+
+    private int score;
+
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
+    }
+
+    public void UpdateScore()
+    {
+        WorldManager.Instance.CalculateScore();
+        score = WorldManager.Instance.calculatedScore;
+        scoreText.text = score.ToString();
+        scoreTextShadow.text = score.ToString();
     }
 }
