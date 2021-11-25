@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class BulldozeCard : Card
 {
+
     public override void Tick()
     {
         if (ToolController.Instance.hoveringOver is TileObject)
         {
             TileObject tileObject = (TileObject)ToolController.Instance.hoveringOver;
-            tileObject.ChangeColor(Color.yellow);
+
+            bool bulldozeOk = true;
             if (tileObject is Road)
             {
-                if (((Road)tileObject).main) tileObject.ChangeColor(Color.red);
+                if (((Road)tileObject).main) bulldozeOk = false;
+            }
+            if(bulldozeOk)
+            {
+                tileObject.ChangeColor(Color.yellow);
+            }
+            else
+            {
+                tileObject.ChangeColor(Color.red);
             }
         }
     }
@@ -31,7 +41,6 @@ public class BulldozeCard : Card
                 }
             }
             tileObject.tile.TerminateTileObject();
-            GameManager.Instance.UpdateScore();
             Return();
             CardManager.Instance.RemoveCard(this);
             CardManager.Instance.AddCard(Random.Range(0, 4));

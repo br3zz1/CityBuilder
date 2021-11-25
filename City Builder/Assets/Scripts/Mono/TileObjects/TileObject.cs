@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class TileObject : MonoBehaviour
 
     public Tile tile { get; protected set; }
 
+    public Dictionary<string, Tile> neighbours;
+
     public Dictionary<string, string> meta;
 
     public bool preview;
@@ -15,7 +18,9 @@ public class TileObject : MonoBehaviour
     
     public virtual void Init(Tile tile)
     {
+        WorldManager.Instance.tileObjects.Add(this);
         this.tile = tile;
+        neighbours = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
         defaultColors = new List<Color>();
     }
 
@@ -31,14 +36,14 @@ public class TileObject : MonoBehaviour
         if(defaultColors.Count > 0) DefaultColor();
     }
 
-    public virtual void Terminate()
-    {
-
-    }
-
-    public virtual int CalculateScore()
+    public virtual int AddedValue()
     {
         return 0;
+    }
+
+    public virtual void Terminate()
+    {
+        WorldManager.Instance.tileObjects.Remove(this);
     }
 
     public void ChangeColor(Color color)
@@ -82,4 +87,41 @@ public class TileObject : MonoBehaviour
         defaultColors.Clear();
     }
 
+    protected void ForeachRoadDistanceDo(Action<ObjectDistance> action)
+    {
+        if (preview) neighbours = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
+        List<ObjectDistance> objects = new List<ObjectDistance>();
+        foreach (KeyValuePair<string, Tile> n in neighbours)
+        {
+            if (n.Value.tileObject is Road) WorldManager.Instance.RecursiveRoadSearch((Road)n.Value.tileObject, 1, 10, ref objects);
+        }
+        List<TileObject> calculatedTileObjects = new List<TileObject>();
+        foreach (ObjectDistance rd in objects)
+        {
+            if (rd.obj == this) continue;
+            if (calculatedTileObjects.Contains(rd.obj)) continue;
+            calculatedTileObjects.Add(rd.obj);
+            action(rd);
+        }
+    }
+
+    protected void ForeachNeighbourDo(Action<TileObject> action)
+    {
+        if (preview) neighbours = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
+        foreach (KeyValuePair<string, Tile> n in neighbours)
+        {
+            if (n.Value.tileObject != null) action(n.Value.tileObject);
+        }
+    }
+
+    protected void ForeachAirDistanceDo(Action<ObjectDistance> action)
+    {
+        foreach(TileObject t in WorldManager.Instance.tileObjects)
+        {
+            if (t == this) continue;
+            if (t == null) continue;
+            float dist = Vector3.Distance(t.tile.transform.position, tile.transform.position);
+            action(new ObjectDistance() { distance = dist, obj = t });
+        }
+    }
 }

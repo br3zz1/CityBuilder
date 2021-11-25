@@ -17,7 +17,7 @@ public class Water : TileObject
     [SerializeField]
     private GameObject water;
 
-    private Dictionary<string, Tile> neighbours;
+    private int score;
 
     public override void Init(Tile tile)
     {
@@ -45,16 +45,19 @@ public class Water : TileObject
     {
         base.Terminate();
 
-        UpdateNeighboursShores();
+        if(!preview) UpdateNeighboursShores();
     }
 
-    public override int CalculateScore()
+    public override int AddedValue()
     {
-        int score = 0;
-        foreach (KeyValuePair<string, Tile> n in neighbours)
-        {
-            if (n.Value.tileObject is Water) score += 20;
-        }
+        score = 0;
+        ForeachNeighbourDo((TileObject t) => {
+            if (t is Water) score += 3;
+        });
+
+        ForeachAirDistanceDo((ObjectDistance od) => {
+            if (od.distance < 3f && od.obj is House) score += 10;
+        });
         return score;
     }
 

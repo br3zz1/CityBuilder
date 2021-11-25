@@ -18,13 +18,13 @@ public class CardManager : MonoBehaviour
     {
         Instance = this;
         holdingCards = new List<Card>();
-        AddCard(Random.Range(0, 4));
-        AddCard(Random.Range(0, 4));
-        AddCard(Random.Range(0, 4));
-        AddCard(Random.Range(0, 4));
-        AddCard(Random.Range(0, 4));
-        AddCard(Random.Range(0, 4));
-        AddCard(Random.Range(0, 4));
+        AddCard(Random.Range(0, 2));
+        AddCard(Random.Range(0, 2));
+        AddCard(Random.Range(0, 2));
+        AddCard(Random.Range(0, 2));
+        AddCard(Random.Range(0, 2));
+        AddCard(Random.Range(0, 2));
+        AddCard(Random.Range(0, 2));
     }
 
     // Update is called once per frame

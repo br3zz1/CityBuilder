@@ -7,8 +7,6 @@ public class Tile : MonoBehaviour
 
     public TileObject tileObject { get; private set; }
 
-    private TileObject temporaryObject;
-
     public int x { get; private set; }
     public int y { get; private set; }
 

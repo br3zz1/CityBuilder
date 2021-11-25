@@ -34,15 +34,22 @@ public class BuildingCard : Card
     {
         if(tile.tileObject != null)
         {
-            HoverOverTileObject(tile);
-            return;
+            if(!tile.tileObject.preview)
+            {
+                HoverOverTileObject(tile);
+                return;
+            }
         }
         if (buildingPreview == null)
         {
             SpawnBuildingPreview(tile);
         }
-        buildingPreview.DefaultColor();
-        previewDesiredPosition = tile.transform.position + Vector3.up * 0.3f;
+        buildingPreview.ChangeColor(Color.cyan);
+
+        buildingPreview.Init(tile);
+        Debug.Log(buildingPreview.AddedValue());
+
+        previewDesiredPosition = tile.transform.position;
     }
 
     private void HoverOverTileObject(Tile tile)
@@ -63,6 +70,7 @@ public class BuildingCard : Card
         buildingPreview = t;
         t.preview = true;
         t.Init(tile);
+        t.ChangeColor(Color.cyan);
     }
 
     public override bool Use()
@@ -72,14 +80,18 @@ public class BuildingCard : Card
             Tile tile = (Tile)ToolController.Instance.hoveringOver;
             if (tile.tileObject != null)
             {
-                TooltipSystem.Instance.Show("", "This space is occupied.", Color.red, 2f);
-                return false;
+                if(!tile.tileObject.preview)
+                {
+                    TooltipSystem.Instance.Show("", "This space is occupied.", Color.red, 2f);
+                    return false;
+                }
             }
             tile.BuildTileObject(buildingPrefab);
-            GameManager.Instance.UpdateScore();
+            GameManager.Instance.UpdateScore(GameManager.Instance.score + tile.tileObject.AddedValue());
 
             if (buildingPreview != null)
             {
+                buildingPreview.Terminate();
                 Destroy(buildingPreview.gameObject);
                 buildingPreview = null;
             }
@@ -91,14 +103,16 @@ public class BuildingCard : Card
         }
         Return();
         CardManager.Instance.RemoveCard(this);
-        CardManager.Instance.AddCard(Random.Range(0,4));
+        CardManager.Instance.AddCard(Random.Range(0,2));
         return true;
     }
 
     public override void Return()
     {
-        if(buildingPreview != null)
+        //if (lastTile != null) lastTile.SetPreviewTileObject(null);
+        if (buildingPreview != null)
         {
+            buildingPreview.Terminate();
             Destroy(buildingPreview.gameObject);
         }
         buildingPreview = null;

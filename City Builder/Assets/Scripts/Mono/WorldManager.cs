@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class WorldManager : MonoBehaviour
@@ -26,18 +27,21 @@ public class WorldManager : MonoBehaviour
     [SerializeField]
     private Material tileUntouchableMaterial;
 
+    public List<TileObject> tileObjects;
+
     public int calculatedScore;
     
     void Start()
     {
         Instance = this;
+        tileObjects = new List<TileObject>();
         world = new Tile[worldSize, worldSize];
         RoadGenerator.townRadius = 7;
         roadLayout = RoadGenerator.GenerateRoadLayout(worldSeed);
         GenerateWorld();
     }
 
-    public void CalculateScore()
+    /*public void CalculateScore()
     {
         calculatedScore = 0;
         LoopCoordinates(Calculate, new Vector2Int(worldSize, worldSize));
@@ -50,7 +54,7 @@ public class WorldManager : MonoBehaviour
         {
             calculatedScore += tObj.CalculateScore();
         }
-    }
+    }*/
 
     void GenerateWorld()
     {
@@ -132,7 +136,7 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    public void RecursiveRoadSearch(Road road, int distance, int maxDistance, ref List<RoadDistance> objects)
+    public void RecursiveRoadSearch(Road road, int distance, int maxDistance, ref List<ObjectDistance> objects)
     {
         if (distance > maxDistance) return;
 
@@ -146,7 +150,7 @@ public class WorldManager : MonoBehaviour
             else if (n.Value.tileObject != null)
             {
                 bool newDist = true;
-                foreach(RoadDistance rd in objects)
+                foreach(ObjectDistance rd in objects)
                 {
                     if(rd.obj == n.Value.tileObject)
                     {
@@ -154,15 +158,15 @@ public class WorldManager : MonoBehaviour
                         rd.distance = Mathf.Min(rd.distance, distance);
                     }
                 }
-                if (newDist) objects.Add(new RoadDistance() { distance = distance, obj = n.Value.tileObject });
+                if (newDist) objects.Add(new ObjectDistance() { distance = distance, obj = n.Value.tileObject });
             }
         }
     }
     
 }
 
-public class RoadDistance
+public class ObjectDistance
 {
-    public int distance;
+    public float distance;
     public TileObject obj;
 }

@@ -24,8 +24,6 @@ public class Road : TileObject
 
     public bool main;
 
-    public Dictionary<string, Tile> neighbours;
-
     public override void Init(Tile tile)
     {
         base.Init(tile);
@@ -53,7 +51,7 @@ public class Road : TileObject
     {
         base.Terminate();
 
-        UpdateNeighboursSidewalks();
+        if(!preview) UpdateNeighboursSidewalks();
     }
 
     private void UpdateNeighboursSidewalks()

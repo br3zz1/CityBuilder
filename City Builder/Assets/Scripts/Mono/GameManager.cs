@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public Text scoreTextShadow;
 
-    private int score;
+    public int score { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -21,10 +21,9 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    public void UpdateScore()
+    public void UpdateScore(int score)
     {
-        WorldManager.Instance.CalculateScore();
-        score = WorldManager.Instance.calculatedScore;
+        this.score = score;
         scoreText.text = score.ToString();
         scoreTextShadow.text = score.ToString();
     }
