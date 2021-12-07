@@ -102,7 +102,8 @@ public class TileObject : MonoBehaviour
         List<ObjectDistance> objects = new List<ObjectDistance>();
         foreach (KeyValuePair<string, Tile> n in neighbours)
         {
-            if (n.Value.tileObject is Road) WorldManager.Instance.RecursiveRoadSearch((Road)n.Value.tileObject, 1, 10, ref objects);
+            List<Road> visited = new List<Road>();
+            if (n.Value.tileObject is Road) WorldManager.Instance.RecursiveRoadSearch((Road)n.Value.tileObject, 10, ref objects, ref visited);
         }
         List<TileObject> calculatedTileObjects = new List<TileObject>();
         foreach (ObjectDistance rd in objects)

@@ -44,6 +44,7 @@ public class WorldManager : MonoBehaviour
         if (!SaveSystem.Load())
         {
             Debug.Log("Generating new level");
+            worldSeed = UnityEngine.Random.Range(0, 2000000);
             RoadGenerator.townRadius = 7;
             roadLayout = RoadGenerator.GenerateRoadLayout(worldSeed);
             GenerateWorld();
@@ -148,16 +149,19 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    public void RecursiveRoadSearch(Road road, int distance, int maxDistance, ref List<ObjectDistance> objects)
+    public void RecursiveRoadSearch(Road road, int maxDistance, ref List<ObjectDistance> objects, ref List<Road> visited, int distance = 1)
     {
         if (distance > maxDistance) return;
+
+        visited.Add(road);
 
         foreach (KeyValuePair<string, Tile> n in road.neighbours)
         {
             if (n.Value.tileObject is Road)
             {
                 Road r = (Road)n.Value.tileObject;
-                RecursiveRoadSearch(r, distance + 1, maxDistance, ref objects);
+                if (visited.Contains(r)) continue;
+                RecursiveRoadSearch(r, maxDistance, ref objects, ref visited, distance + 1);
             }
             else if (n.Value.tileObject != null)
             {
