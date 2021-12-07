@@ -10,15 +10,23 @@ public class TileObject : MonoBehaviour
 
     public Dictionary<string, Tile> neighbours;
 
-    public Dictionary<string, string> meta;
-
+    [HideInInspector]
     public bool preview;
 
     private List<Color> defaultColors;
+
+
+    public string ObjectName { get { return objectName; } }
+    [SerializeField]
+    private string objectName;
     
     public virtual void Init(Tile tile)
     {
-        WorldManager.Instance.tileObjects.Add(this);
+        if (!preview)
+        {
+            WorldManager.Instance.tileObjects.Add(this);
+            SaveSystem.Save();
+        }
         this.tile = tile;
         neighbours = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
         defaultColors = new List<Color>();
@@ -44,6 +52,7 @@ public class TileObject : MonoBehaviour
     public virtual void Terminate()
     {
         WorldManager.Instance.tileObjects.Remove(this);
+        SaveSystem.Save();
     }
 
     public void ChangeColor(Color color)

@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
 
     private float zoom;
-    private float desiredZoom;
+    public float desiredZoom;
     private float rotationX;
     private float rotationY;
 
@@ -24,18 +24,21 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float cameraSpeed;
 
-    public bool lockControl = false;
-
     public static CameraController Instance { get; private set; }
 
     //private Vector3 startMousePos;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Instance = this;
 
-        zoom = 5f;
+        zoom = 35f;
+        Vector3 pos = transform.localPosition;
+        pos.y = zoom;
+        transform.localPosition = pos;
+
+        desiredZoom = 17.5f;
 
         transform.parent.parent.position = new Vector3(50,0,50);
 
@@ -45,21 +48,20 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(lockControl == false)
-        {
-            Zoom();
-            Rotate();
-            Move();
-        }
+        Zoom();
+        Rotate();
+        Move();
     }
 
     void Zoom()
     {
-        desiredZoom -= Input.mouseScrollDelta.y;
+        if (!GameManager.Instance.paused)
+        {
+            desiredZoom -= Input.mouseScrollDelta.y;
+            desiredZoom = Mathf.Clamp(desiredZoom, 1, 12);
+        }
 
-        desiredZoom = Mathf.Clamp(desiredZoom, 1, 12);
-
-        zoom = Mathf.Lerp(zoom, 1 + Mathf.Pow(desiredZoom / 3f, 2), Time.deltaTime * interpolationSpeed);
+        zoom = Mathf.Lerp(zoom, 1 + Mathf.Pow(desiredZoom / 3f, 2), Time.unscaledDeltaTime * interpolationSpeed);
 
         Vector3 pos = transform.localPosition;
         pos.y = zoom;
@@ -68,6 +70,7 @@ public class CameraController : MonoBehaviour
 
     void Rotate()
     {
+        if (GameManager.Instance.paused) return;
         if (Input.GetMouseButtonDown(1))
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -93,14 +96,17 @@ public class CameraController : MonoBehaviour
 
     void Move()
     {
-        float sSpeed = Mathf.Sqrt(zoom) * 2;
+        if(!GameManager.Instance.paused)
+        {
+            float sSpeed = Mathf.Sqrt(zoom) * 2;
 
-        Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        move.Normalize();
+            Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+            move.Normalize();
 
-        move = transform.parent.parent.rotation * move;
+            move = transform.parent.parent.rotation * move;
 
-        desiredPosition += move * cameraSpeed * sSpeed * Time.deltaTime;
-        transform.parent.parent.position = Vector3.Lerp(transform.parent.parent.position, desiredPosition, Time.deltaTime * cameraIntSpeed);
+            desiredPosition += move * cameraSpeed * sSpeed * Time.deltaTime;
+        }
+        transform.parent.parent.position = Vector3.Lerp(transform.parent.parent.position, desiredPosition, Time.unscaledDeltaTime * cameraIntSpeed);
     }
 }

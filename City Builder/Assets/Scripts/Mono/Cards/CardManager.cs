@@ -14,7 +14,7 @@ public class CardManager : MonoBehaviour
     public Card hoveringOver;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Instance = this;
         holdingCards = new List<Card>();

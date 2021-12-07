@@ -32,20 +32,22 @@ public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPoi
     void Update()
     {
         UpdatePosition();
-        
 
-        if(mouse_click)
+        if(!GameManager.Instance.paused)
         {
-            ToolController.Instance.Useable = this;
-            hoverable = false;
-        }
+            if (mouse_click)
+            {
+                ToolController.Instance.Useable = this;
+                hoverable = false;
+            }
 
-        if(Input.GetMouseButtonDown(1))
-        {
-            Return();
-        }
+            if (Input.GetMouseButtonDown(1))
+            {
+                Return();
+            }
 
-        mouse_click = false;
+            mouse_click = false;
+        }
     }
 
     void UpdatePosition()
@@ -54,16 +56,17 @@ public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPoi
         if (hoverable)
         {
             if (mouse_over) finalDesiredPos += Vector3.up * 50f;
-            transform.localPosition = Vector3.Lerp(transform.localPosition, finalDesiredPos, Time.deltaTime * 10f);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, finalDesiredPos, Time.unscaledDeltaTime * 10f);
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, Input.mousePosition + Vector3.up * 200f, Time.deltaTime * 10f);
+            transform.position = Vector3.Lerp(transform.position, Input.mousePosition + Vector3.up * 200f, Time.unscaledDeltaTime * 10f);
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (GameManager.Instance.paused) return;
         mouse_over = true;
         CardManager.Instance.hoveringOver = this;
         CardManager.Instance.UpdateCardPositions();

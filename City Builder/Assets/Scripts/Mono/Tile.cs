@@ -24,7 +24,7 @@ public class Tile : MonoBehaviour
         GetComponent<MeshRenderer>().material = m;
     }
 
-    public void BuildTileObject(TileObject prefab, bool init = true)
+    public void BuildTileObject(TileObject prefab, bool init = true, bool smoke = true)
     {
         if(prefab.gameObject == null)
         {
@@ -36,7 +36,7 @@ public class Tile : MonoBehaviour
         TileObject t = obj.GetComponent<TileObject>();
         tileObject = t;
         if(init) t.Init(this);
-        if(GameManager.Instance != null)
+        if(GameManager.Instance != null && smoke)
         {
             GameObject g = Instantiate(GameManager.Instance.SmokeEffect, transform.position, Quaternion.identity);
             Destroy(g, 1.5f);

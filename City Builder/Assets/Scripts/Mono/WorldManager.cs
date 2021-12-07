@@ -31,14 +31,27 @@ public class WorldManager : MonoBehaviour
 
     public int calculatedScore;
     
-    void Start()
+    void Awake()
     {
         Instance = this;
         tileObjects = new List<TileObject>();
         world = new Tile[worldSize, worldSize];
-        RoadGenerator.townRadius = 7;
-        roadLayout = RoadGenerator.GenerateRoadLayout(worldSeed);
-        GenerateWorld();
+        LoopCoordinates(SpawnTile, new Vector2Int(worldSize, worldSize));
+    }
+
+    void Start()
+    {
+        if (!SaveSystem.Load())
+        {
+            Debug.Log("Generating new level");
+            RoadGenerator.townRadius = 7;
+            roadLayout = RoadGenerator.GenerateRoadLayout(worldSeed);
+            GenerateWorld();
+        }
+        else
+        {
+            Debug.Log("Loading level");
+        }
     }
 
     /*public void CalculateScore()
@@ -58,8 +71,12 @@ public class WorldManager : MonoBehaviour
 
     void GenerateWorld()
     {
-        LoopCoordinates(SpawnTile, new Vector2Int(worldSize, worldSize));
         LoopCoordinates(Generation, new Vector2Int(worldSize, worldSize));
+    }
+
+    public Tile TileAt(int x, int y)
+    {
+        return world[x, y];
     }
 
     void SpawnTile(Vector2Int coord)
@@ -84,13 +101,13 @@ public class WorldManager : MonoBehaviour
         {
             if(roadLayout[coord.x, coord.y] == RoadType.Main)
             {
-                world[coord.x, coord.y].BuildTileObject(roadPrefab, false);
+                world[coord.x, coord.y].BuildTileObject(roadPrefab, false, false);
                 ((Road)world[coord.x, coord.y].tileObject).main = true;
                 world[coord.x, coord.y].tileObject.Init(world[coord.x, coord.y]);
             }
             else if(coord.x > 38 && coord.x < 62 && coord.y > 38 && coord.y < 62)
             {
-                world[coord.x, coord.y].BuildTileObject(roadPrefab);
+                world[coord.x, coord.y].BuildTileObject(roadPrefab, smoke: false);
             }
         }
     }
@@ -117,11 +134,6 @@ public class WorldManager : MonoBehaviour
         }
 
         return tileDic;
-    }
-
-    public void Cleartile(int x, int y)
-    {
-        world[x, y].TerminateTileObject();
     }
 
     void LoopCoordinates(Action<Vector2Int> action, Vector2Int size, Vector2Int? offset = null)

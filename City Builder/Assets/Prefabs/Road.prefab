@@ -310,6 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preview: 0
+  objectName: Road
   roadColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
   mainRoadColor: {r: 0.29411766, g: 0.29411766, b: 0.29411766, a: 1}
   sidewalkColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}

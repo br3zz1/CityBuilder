@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class House : TileObject
 {
-
-    [SerializeField]
-    private string type;
-
     private int score;
     public override int AddedValue()
     {

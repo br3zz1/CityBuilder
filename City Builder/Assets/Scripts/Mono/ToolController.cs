@@ -26,21 +26,23 @@ public class ToolController : MonoBehaviour
     private IUseable useable;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Instance = this;
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        useable?.Tick();
-        if(Input.GetMouseButtonDown(0))
+        if(GameManager.Instance.paused == false)
         {
-            if(!EventSystem.current.IsPointerOverGameObject())
+            useable?.Tick();
+            if (Input.GetMouseButtonDown(0))
             {
-                useable?.Use();
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    useable?.Use();
+                }
             }
         }
     }

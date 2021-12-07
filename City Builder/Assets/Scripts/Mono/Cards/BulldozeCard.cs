@@ -14,7 +14,7 @@ public class BulldozeCard : Card
             bool bulldozeOk = true;
             if (tileObject is Road)
             {
-                if (((Road)tileObject).main) bulldozeOk = false;
+                bulldozeOk = false;
             }
             if(bulldozeOk)
             {
@@ -34,16 +34,15 @@ public class BulldozeCard : Card
             TileObject tileObject = (TileObject)ToolController.Instance.hoveringOver;
             if (tileObject is Road)
             {
-                if (((Road)tileObject).main)
-                {
-                    TooltipSystem.Instance.Show("", "You can't bulldoze a main road.", Color.red, 1.5f);
-                    return false;
-                }
+                TooltipSystem.Instance.Show("", "You can't bulldoze roads.", Color.red, 1.5f);
+                return false;
             }
+            GameManager.Instance.UpdateScore(GameManager.Instance.score - tileObject.AddedValue());
+
             tileObject.tile.TerminateTileObject();
             Return();
             CardManager.Instance.RemoveCard(this);
-            CardManager.Instance.AddCard(Random.Range(0, 4));
+            CardManager.Instance.AddCard(Random.Range(0, 3));
             return true;
         }
         return false;

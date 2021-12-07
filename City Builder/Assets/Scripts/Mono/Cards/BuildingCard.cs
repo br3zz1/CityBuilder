@@ -44,12 +44,14 @@ public class BuildingCard : Card
         {
             SpawnBuildingPreview(tile);
         }
-        buildingPreview.ChangeColor(Color.cyan);
+
+        buildingPreview.DefaultColor();
 
         buildingPreview.Init(tile);
+
         Debug.Log(buildingPreview.AddedValue());
 
-        previewDesiredPosition = tile.transform.position;
+        previewDesiredPosition = tile.transform.position + Vector3.up / 4f;
     }
 
     private void HoverOverTileObject(Tile tile)
@@ -70,7 +72,6 @@ public class BuildingCard : Card
         buildingPreview = t;
         t.preview = true;
         t.Init(tile);
-        t.ChangeColor(Color.cyan);
     }
 
     public override bool Use()
@@ -103,7 +104,7 @@ public class BuildingCard : Card
         }
         Return();
         CardManager.Instance.RemoveCard(this);
-        CardManager.Instance.AddCard(Random.Range(0,2));
+        CardManager.Instance.AddCard(Random.Range(0,3));
         return true;
     }
 
