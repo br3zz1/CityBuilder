@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour
 
     public bool paused { get; private set; }
 
-    [SerializeField]
-    private List<TileObject> prefabs;
+    //[SerializeField]
+    //private List<TileObject> prefabs;
 
     public Dictionary<string, TileObject> namedPrefabs;
 
@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         paused = true;
 
         namedPrefabs = new Dictionary<string, TileObject>();
-        foreach(TileObject to in prefabs)
+        foreach(TileObject to in Resources.LoadAll<TileObject>("Prefabs/TileObjects/"))
         {
             namedPrefabs.Add(to.ObjectName, to);
         }

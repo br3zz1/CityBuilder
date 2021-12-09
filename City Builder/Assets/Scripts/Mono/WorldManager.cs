@@ -9,23 +9,26 @@ public class WorldManager : MonoBehaviour
 
     public static WorldManager Instance { get; private set; }
 
+    public bool testMode;
+
+    [Header("Tree Generation Settings")]
     [SerializeField]
-    private int worldSize;
+    private float treeNoiseScale;
     [SerializeField]
+    private float treeProbability;
+    [SerializeField]
+    private float treeThreshold;
+
     private int worldSeed;
-    [SerializeField]
-    private GameObject tilePrefab;
-    [SerializeField]
-    private Road roadPrefab;
+
+    private int worldSize = 100;
 
     private Tile[,] world;
 
-    private RoadType[,] roadLayout;
+    private GameObject tilePrefab;
+    private Road roadPrefab;
 
-    [SerializeField]
-    private Material tileMaterial;
-    [SerializeField]
-    private Material tileUntouchableMaterial;
+    private RoadType[,] roadLayout;
 
     public List<TileObject> tileObjects;
 
@@ -36,11 +39,18 @@ public class WorldManager : MonoBehaviour
         Instance = this;
         tileObjects = new List<TileObject>();
         world = new Tile[worldSize, worldSize];
+        tilePrefab = Resources.Load<GameObject>("Prefabs/Tile");
+        roadPrefab = Resources.Load<Road>("Prefabs/TileObjects/Road");
         LoopCoordinates(SpawnTile, new Vector2Int(worldSize, worldSize));
     }
 
     void Start()
     {
+        if(testMode)
+        {
+            GenerateWorld();
+            return;
+        }
         if (!SaveSystem.Load())
         {
             Debug.Log("Generating new level");
@@ -72,7 +82,18 @@ public class WorldManager : MonoBehaviour
 
     void GenerateWorld()
     {
+        UnityEngine.Random.InitState(worldSeed);
         LoopCoordinates(Generation, new Vector2Int(worldSize, worldSize));
+    }
+
+    public void Regenerate()
+    {
+        TileObject[] tempArr = tileObjects.ToArray();
+        foreach(TileObject t in tempArr)
+        {
+            t.tile.TerminateTileObject(false);
+        }
+        GenerateWorld();
     }
 
     public Tile TileAt(int x, int y)
@@ -87,17 +108,21 @@ public class WorldManager : MonoBehaviour
         tileObj.name = "Tile [" + coord.x + "," + coord.y + "]";
         tileObj.transform.parent = transform;
         Tile tile = tileObj.GetComponent<Tile>();
-        Material m = tileMaterial;
         if (coord.x < 37 || coord.x > 63 || coord.y < 37 || coord.y > 63)
         {
             tile.untouchable = true;
-            m = tileUntouchableMaterial;
+            //m = tileUntouchableMaterial;
         }
-        tile.SetCoords(coord.x, coord.y, m);
+        tile.SetCoords(coord.x, coord.y);
     }
 
     void Generation(Vector2Int coord)
     {
+        if(testMode)
+        {
+            TreeGeneration(coord);
+            return;
+        }
         if (roadLayout[coord.x, coord.y] != RoadType.None)
         {
             if(roadLayout[coord.x, coord.y] == RoadType.Main)
@@ -113,7 +138,20 @@ public class WorldManager : MonoBehaviour
         }
         else
         {
-            if (UnityEngine.Random.Range(0, 20) < 1) world[coord.x, coord.y].BuildTileObject(GameManager.Instance.namedPrefabs["Tree"], smoke: false);
+            TreeGeneration(coord);
+        }
+    }
+
+    void TreeGeneration(Vector2Int coord)
+    {
+        //if (UnityEngine.Random.Range(0, 20) < 1) world[coord.x, coord.y].BuildTileObject(GameManager.Instance.namedPrefabs["Tree"], smoke: false);
+        float pX = coord.x * treeNoiseScale * Mathf.PI;
+        float pY = coord.y * treeNoiseScale * Mathf.PI;
+        float value = Mathf.Clamp01(Mathf.PerlinNoise(pX, pY));
+        if(value > treeThreshold)
+        {
+            float p = Mathf.Pow(UnityEngine.Random.Range(0f,1f), treeProbability);
+            if(value > p) world[coord.x, coord.y].BuildTileObject(GameManager.Instance.namedPrefabs["Tree"], smoke: false);
         }
     }
 

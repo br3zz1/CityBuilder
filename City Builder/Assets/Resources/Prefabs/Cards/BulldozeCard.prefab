@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -90,9 +90,10 @@ GameObject:
   - component: {fileID: 2013292166273541213}
   - component: {fileID: 2013292166273541219}
   - component: {fileID: 2013292166273541212}
-  - component: {fileID: 2013292166273541218}
+  - component: {fileID: -2974558175410624558}
+  - component: {fileID: -7615298667222433016}
   m_Layer: 5
-  m_Name: HouseCard
+  m_Name: BulldozeCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,15 +142,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 3286163911610860551, guid: 01fa4bedfbd021e48973ec75acd10d70, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -158,7 +159,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2013292166273541218
+--- !u!114 &-2974558175410624558
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,14 +168,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 2013292166273541214}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80b59936ae3866a4eb8f5a67c559b21a, type: 3}
+  m_Script: {fileID: 11500000, guid: fd7f95d59cf3b6f4ab0e4c0a39ddb03b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardName: House
+  cardName: Bulldoze
   cost: 20
   desiredPosition: {x: 0, y: 0, z: 0}
   hoverable: 1
-  buildingPrefab: {fileID: 1255474128831391746, guid: e13035848c0cb624d89d1e0a640cbd8e, type: 3}
+--- !u!114 &-7615298667222433016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013292166273541214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: -5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &2013292166483860492
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -253,7 +268,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: House
+  m_Text: Bulldoze
 --- !u!1 &6632672383085169417
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,7 +296,7 @@ RectTransform:
   m_GameObject: {fileID: 6632672383085169417}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.75, z: 1}
   m_Children: []
   m_Father: {fileID: 2013292166273541213}
   m_RootOrder: 2
@@ -312,14 +327,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8113208, g: 0.11105217, b: 0.11105217, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: e25c87fcaf5c80144a5feba9d4f81dd1, type: 3}
+  m_Texture: {fileID: 2800000, guid: 7526c274b1c1cb94b863e5e67b4b5509, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0

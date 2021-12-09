@@ -17,11 +17,10 @@ public class Tile : MonoBehaviour
         
     }
 
-    public void SetCoords(int x, int y, Material m)
+    public void SetCoords(int x, int y)
     {
         this.x = x;
         this.y = y;
-        GetComponent<MeshRenderer>().material = m;
     }
 
     public void BuildTileObject(TileObject prefab, bool init = true, bool smoke = true)
@@ -44,14 +43,17 @@ public class Tile : MonoBehaviour
         OnMouseExit();
     }
 
-    public void TerminateTileObject()
+    public void TerminateTileObject(bool smoke = true)
     {
         if (tileObject == null) return;
         TileObject tObj = tileObject;
         tileObject = null;
         tObj.Terminate();
-        GameObject g = Instantiate(GameManager.Instance.SmokeEffect, transform.position, Quaternion.identity);
-        Destroy(g, 1.5f);
+        if(smoke)
+        {
+            GameObject g = Instantiate(GameManager.Instance.SmokeEffect, transform.position, Quaternion.identity);
+            Destroy(g, 1.5f);
+        }
         Destroy(tObj.gameObject);
         GetComponent<MeshRenderer>().enabled = true;
     }

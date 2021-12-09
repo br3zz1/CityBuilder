@@ -45,6 +45,10 @@ public class BulldozeCard : Card
             CardManager.Instance.AddCard(Random.Range(0, 3));
             return true;
         }
+        else if (ToolController.Instance.hoveringOver == null)
+        {
+            TooltipSystem.Instance.Show("", "Out of bounds.", Color.red, 1.5f);
+        }
         return false;
     }
 

@@ -25,7 +25,7 @@ public class TileObject : MonoBehaviour
         if (!preview)
         {
             WorldManager.Instance.tileObjects.Add(this);
-            SaveSystem.Save();
+            if(!WorldManager.Instance.testMode) SaveSystem.Save();
         }
         this.tile = tile;
         neighbours = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));

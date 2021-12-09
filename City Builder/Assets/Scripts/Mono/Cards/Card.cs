@@ -60,7 +60,7 @@ public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPoi
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, Input.mousePosition + Vector3.up * 200f, Time.unscaledDeltaTime * 10f);
+            transform.position = Vector3.Lerp(transform.position, Input.mousePosition + Vector3.up * (Screen.height / 4f), Time.unscaledDeltaTime * 10f);
         }
     }
 

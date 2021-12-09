@@ -27,11 +27,11 @@ public class TooltipSystem : MonoBehaviour
         tooltip.gameObject.SetActive(true);
         tooltip.ChangeText(header, content);
 
-        LeanTween.scale(tooltip.gameObject, Vector3.one, 0.2f).setEaseOutBack();
+        LeanTween.scale(tooltip.gameObject, Vector3.one, 0.2f).setEaseOutBack().setIgnoreTimeScale(true);
 
         if(duration > 0)
         {
-            ltd = LeanTween.delayedCall(duration, () => { Hide(); });
+            ltd = LeanTween.delayedCall(duration, () => { Hide(); }).setIgnoreTimeScale(true);
         }
     }
 
