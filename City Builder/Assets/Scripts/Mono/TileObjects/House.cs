@@ -12,7 +12,7 @@ public class House : TileObject
         ForeachRoadDistanceDo(RoadDistance);
 
         ForeachAirDistanceDo((ObjectDistance od) => {
-            if (od.distance < 3f && od.obj is Water) score += 10;
+            if (od.distance < 6f && od.obj is TreeObject) score += 6;
         });
 
         return score;

@@ -111,6 +111,10 @@ public class WorldManager : MonoBehaviour
                 world[coord.x, coord.y].BuildTileObject(roadPrefab, smoke: false);
             }
         }
+        else
+        {
+            if (UnityEngine.Random.Range(0, 20) < 1) world[coord.x, coord.y].BuildTileObject(GameManager.Instance.namedPrefabs["Tree"], smoke: false);
+        }
     }
 
     public Dictionary<string,Tile> GetNeighboursNSEW(Vector2Int coord)

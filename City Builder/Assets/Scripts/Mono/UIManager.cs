@@ -28,22 +28,12 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        if (File.Exists(Application.persistentDataPath + "/save.json"))
-        {
-            abandonCityButton.interactable = true;
-            abandonCityButton.GetComponentInChildren<Text>().color = Color.white;
-        }
     }
 
     public void PauseMenu()
     {
         LeanTween.moveLocalX(menu, -640f, animationTime).setEaseInOutCubic().setIgnoreTimeScale(true);
         LeanTween.moveY(cardHolder, -200f, animationTime).setEaseInOutCubic().setIgnoreTimeScale(true);
-        if (File.Exists(Application.persistentDataPath + "/save.json"))
-        {
-            abandonCityButton.interactable = true;
-            abandonCityButton.GetComponentInChildren<Text>().color = Color.white;
-        }
     }
 
     public void Game()

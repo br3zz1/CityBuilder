@@ -56,7 +56,7 @@ public class Water : TileObject
         });
 
         ForeachAirDistanceDo((ObjectDistance od) => {
-            if (od.distance < 3f && od.obj is House) score += 10;
+            if (od.distance < 3f && od.obj is TreeObject) score += 4;
         });
         return score;
     }
