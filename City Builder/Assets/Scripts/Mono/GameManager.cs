@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject SmokeEffect;
 
     public Text scoreText;
+    public Text addedScoreText;
 
     public int score { get; private set; }
 

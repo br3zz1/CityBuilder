@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TileObject : MonoBehaviour
 {
@@ -14,7 +15,9 @@ public class TileObject : MonoBehaviour
     public bool preview;
 
     private List<Color> defaultColors;
+    private Dictionary<TileObject, ValueTextUsed> valueTexts;
 
+    protected int score;
 
     public string ObjectName { get { return objectName; } }
     [SerializeField]
@@ -27,6 +30,7 @@ public class TileObject : MonoBehaviour
             WorldManager.Instance.tileObjects.Add(this);
             if(!WorldManager.Instance.testMode) SaveSystem.Save();
         }
+        if(valueTexts == null) valueTexts = new Dictionary<TileObject, ValueTextUsed>();
         this.tile = tile;
         neighbours = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
         defaultColors = new List<Color>();
@@ -51,8 +55,18 @@ public class TileObject : MonoBehaviour
 
     public virtual void Terminate()
     {
-        WorldManager.Instance.tileObjects.Remove(this);
-        SaveSystem.Save();
+        if (!preview)
+        {
+            WorldManager.Instance.tileObjects.Remove(this);
+            SaveSystem.Save();
+        }
+        else
+        {
+            foreach(KeyValuePair<TileObject, ValueTextUsed> v in valueTexts)
+            {
+                Destroy(v.Value.obj.gameObject);
+            }
+        }
     }
 
     public void ChangeColor(Color color)
@@ -134,4 +148,58 @@ public class TileObject : MonoBehaviour
             action(new ObjectDistance() { distance = dist, obj = t });
         }
     }
+
+    protected void BeginAddValue()
+    {
+        foreach (KeyValuePair<TileObject, ValueTextUsed> t in valueTexts)
+        {
+            t.Value.used = false;
+        }
+    }
+
+    protected void AddValue(TileObject obj, int value)
+    {
+        if (obj == null) Debug.LogError("help");
+        score += value;
+        if(preview)
+        {
+            if (valueTexts.ContainsKey(obj))
+            {
+                valueTexts[obj].used = true;
+                valueTexts[obj].obj.text = "+" + value;
+            }
+            else
+            {
+                GameObject val = Instantiate(WorldManager.Instance.valueTextPrefab, WorldManager.Instance.valueTextContainer.transform);
+                Text txt = val.GetComponent<Text>();
+                txt.text = "+" + value;
+                val.GetComponent<ValueText>().parent = obj;
+                val.transform.position = Camera.main.WorldToScreenPoint(obj.transform.position);
+                valueTexts.Add(obj, new ValueTextUsed() { obj = txt, used = true });
+            }
+        }
+    }
+
+    protected void EndAddValue()
+    {
+        List<TileObject> clear = new List<TileObject>();
+        foreach (KeyValuePair<TileObject, ValueTextUsed> t in valueTexts)
+        {
+            if (!t.Value.used)
+            {
+                clear.Add(t.Key);
+            }
+        }
+        foreach (TileObject t in clear)
+        {
+            Destroy(valueTexts[t].obj.gameObject);
+            valueTexts.Remove(t);
+        }
+    }
+}
+
+public class ValueTextUsed
+{
+    public bool used;
+    public Text obj;
 }

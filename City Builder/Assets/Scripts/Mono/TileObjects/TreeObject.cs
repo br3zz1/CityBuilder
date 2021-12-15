@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class TreeObject : TileObject
 {
-    private int score;
     public override int AddedValue()
     {
+        BeginAddValue();
         score = 0;
 
         ForeachAirDistanceDo((ObjectDistance od) => {
-            if (od.distance < 3f && od.obj is Water) score += 4;
-            else if (od.distance < 6f && od.obj is House) score += 6;
+            if (od.distance < 3f && od.obj is Water) AddValue(od.obj, 4);
+            else if (od.distance < 6f && od.obj is House) AddValue(od.obj, 6);
         });
 
         ForeachNeighbourDo((TileObject t) => {
-            if (t is TreeObject) score += 1;
+            if (t is TreeObject) AddValue(t, 1);
         });
 
+        EndAddValue();
         return score;
     }
 }

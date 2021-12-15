@@ -17,8 +17,6 @@ public class Water : TileObject
     [SerializeField]
     private GameObject water;
 
-    private int score;
-
     public override void Init(Tile tile)
     {
         base.Init(tile);
@@ -50,14 +48,16 @@ public class Water : TileObject
 
     public override int AddedValue()
     {
+        BeginAddValue();
         score = 0;
         ForeachNeighbourDo((TileObject t) => {
-            if (t is Water) score += 3;
+            if (t is Water) AddValue(t, 3);
         });
 
         ForeachAirDistanceDo((ObjectDistance od) => {
-            if (od.distance < 3f && od.obj is TreeObject) score += 4;
+            if (od.distance < 3f && od.obj is TreeObject) AddValue(od.obj, 4);
         });
+        EndAddValue();
         return score;
     }
 

@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class House : TileObject
 {
-    private int score;
     public override int AddedValue()
     {
+        BeginAddValue();
         score = 0;
 
         ForeachRoadDistanceDo(RoadDistance);
 
         ForeachAirDistanceDo((ObjectDistance od) => {
-            if (od.distance < 6f && od.obj is TreeObject) score += 6;
+            if (od.distance < 6f && od.obj is TreeObject) AddValue(od.obj, 6);
         });
 
+        EndAddValue();
         return score;
     }
 
@@ -22,7 +23,7 @@ public class House : TileObject
     {
         if(rd.obj is House)
         {
-            score += 5;
+            AddValue(rd.obj, 5);
         }
     }
 }

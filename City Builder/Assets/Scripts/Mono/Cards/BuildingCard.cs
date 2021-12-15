@@ -12,17 +12,28 @@ public class BuildingCard : Card
     private TileObject buildingPreview;
     private Vector3 previewDesiredPosition;
 
+    private Tile lastTile;
+
     public override void Tick()
     {
+        GameManager.Instance.addedScoreText.text = "";
         if (ToolController.Instance.hoveringOver is Tile)
         {
             Tile tile = (Tile)ToolController.Instance.hoveringOver;
-            HoverOverTile(tile);
+            if(tile != lastTile)
+            {
+                lastTile = tile;
+                HoverOverTile(tile);
+            }
         }
         else if (ToolController.Instance.hoveringOver is TileObject)
         {
             Tile tile = ((TileObject)ToolController.Instance.hoveringOver).tile;
-            HoverOverTileObject(tile);
+            if(tile != lastTile)
+            {
+                lastTile = tile;
+                HoverOverTileObject(tile);
+            }        
         }
         if(buildingPreview != null)
         {
@@ -49,9 +60,10 @@ public class BuildingCard : Card
 
         buildingPreview.Init(tile);
 
-        Debug.Log(buildingPreview.AddedValue());
-
         previewDesiredPosition = tile.transform.position + Vector3.up / 4f;
+
+        int v = buildingPreview.AddedValue();
+        GameManager.Instance.addedScoreText.text = "+" + v;
     }
 
     private void HoverOverTileObject(Tile tile)

@@ -30,6 +30,9 @@ public class WorldManager : MonoBehaviour
 
     private RoadType[,] roadLayout;
 
+    public GameObject valueTextPrefab;
+    public GameObject valueTextContainer;
+
     public List<TileObject> tileObjects;
 
     public int calculatedScore;
