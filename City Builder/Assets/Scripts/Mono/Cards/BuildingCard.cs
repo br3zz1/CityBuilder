@@ -16,13 +16,13 @@ public class BuildingCard : Card
 
     public override void Tick()
     {
-        GameManager.Instance.addedScoreText.text = "";
         if (ToolController.Instance.hoveringOver is Tile)
         {
             Tile tile = (Tile)ToolController.Instance.hoveringOver;
             if(tile != lastTile)
             {
                 lastTile = tile;
+                GameManager.Instance.addedScoreText.text = "";
                 HoverOverTile(tile);
             }
         }
@@ -32,6 +32,7 @@ public class BuildingCard : Card
             if(tile != lastTile)
             {
                 lastTile = tile;
+                GameManager.Instance.addedScoreText.text = "";
                 HoverOverTileObject(tile);
             }        
         }
