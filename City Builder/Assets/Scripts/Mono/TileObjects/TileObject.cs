@@ -19,6 +19,8 @@ public class TileObject : MonoBehaviour
 
     protected int score;
 
+    private bool negative;
+
     public string ObjectName { get { return objectName; } }
     [SerializeField]
     private string objectName;
@@ -48,8 +50,9 @@ public class TileObject : MonoBehaviour
         if(defaultColors.Count > 0) DefaultColor();
     }
 
-    public virtual int AddedValue()
+    public virtual int AddedValue(bool negative = false)
     {
+        this.negative = negative;
         return 0;
     }
 
@@ -160,19 +163,20 @@ public class TileObject : MonoBehaviour
     protected void AddValue(TileObject obj, int value)
     {
         if (obj == null) Debug.LogError("help");
+        if (negative) value = -value;
         score += value;
-        if(preview)
+        if(preview || negative)
         {
             if (valueTexts.ContainsKey(obj))
             {
                 valueTexts[obj].used = true;
-                valueTexts[obj].obj.text = "+" + value;
+                valueTexts[obj].obj.text = (value > 0 ? "+": "-") + value;
             }
             else
             {
                 GameObject val = Instantiate(WorldManager.Instance.valueTextPrefab, WorldManager.Instance.valueTextContainer.transform);
                 Text txt = val.GetComponent<Text>();
-                txt.text = "+" + value;
+                txt.text = (value > 0 ? "+" : "-") + value;
                 val.GetComponent<ValueText>().parent = obj;
                 val.transform.position = Camera.main.WorldToScreenPoint(obj.transform.position);
                 valueTexts.Add(obj, new ValueTextUsed() { obj = txt, used = true });
@@ -182,6 +186,7 @@ public class TileObject : MonoBehaviour
 
     protected void EndAddValue()
     {
+        negative = false;
         List<TileObject> clear = new List<TileObject>();
         foreach (KeyValuePair<TileObject, ValueTextUsed> t in valueTexts)
         {
@@ -195,6 +200,15 @@ public class TileObject : MonoBehaviour
             Destroy(valueTexts[t].obj.gameObject);
             valueTexts.Remove(t);
         }
+    }
+
+    public void ClearValueTexts()
+    {
+        foreach (KeyValuePair<TileObject, ValueTextUsed> v in valueTexts)
+        {
+            Destroy(v.Value.obj.gameObject);
+        }
+        valueTexts.Clear();
     }
 }
 

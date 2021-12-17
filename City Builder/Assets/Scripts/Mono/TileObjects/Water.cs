@@ -46,8 +46,9 @@ public class Water : TileObject
         if(!preview) UpdateNeighboursShores();
     }
 
-    public override int AddedValue()
+    public override int AddedValue(bool negative = false)
     {
+        base.AddedValue(negative);
         BeginAddValue();
         score = 0;
         ForeachNeighbourDo((TileObject t) => {

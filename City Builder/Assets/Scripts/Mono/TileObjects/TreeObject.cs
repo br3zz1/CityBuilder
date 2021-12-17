@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class TreeObject : TileObject
 {
-    public override int AddedValue()
+    public override int AddedValue(bool negative = false)
     {
+        base.AddedValue(negative);
         BeginAddValue();
         score = 0;
 
