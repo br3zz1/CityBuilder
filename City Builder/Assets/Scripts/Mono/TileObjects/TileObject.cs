@@ -176,7 +176,7 @@ public class TileObject : MonoBehaviour
             {
                 GameObject val = Instantiate(WorldManager.Instance.valueTextPrefab, WorldManager.Instance.valueTextContainer.transform);
                 Text txt = val.GetComponent<Text>();
-                txt.text = (value > 0 ? "+" : "-") + value;
+                txt.text = (value > 0 ? "+" : "") + value;
                 val.GetComponent<ValueText>().parent = obj;
                 val.transform.position = Camera.main.WorldToScreenPoint(obj.transform.position);
                 valueTexts.Add(obj, new ValueTextUsed() { obj = txt, used = true });

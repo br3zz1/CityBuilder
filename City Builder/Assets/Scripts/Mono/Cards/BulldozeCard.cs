@@ -14,7 +14,8 @@ public class BulldozeCard : Card
         {
             TileObject tileObject = (TileObject)ToolController.Instance.hoveringOver;
             if (lastTileObj == tileObject) return;
-            if(lastTileObj != null) lastTileObj.ClearValueTexts();
+            GameManager.Instance.addedScoreText.text = "";
+            if (lastTileObj != null) lastTileObj.ClearValueTexts();
             lastTileObj = tileObject;
             rValue = tileObject.AddedValue(true);
             GameManager.Instance.addedScoreText.text = (rValue > 0 ? "+" : "") + rValue;
@@ -36,6 +37,7 @@ public class BulldozeCard : Card
         else
         {
             if (lastTileObj != null) lastTileObj.ClearValueTexts();
+            GameManager.Instance.addedScoreText.text = "";
             lastTileObj = null;
         }
     }
@@ -77,6 +79,7 @@ public class BulldozeCard : Card
         {
             TileObject tileObject = (TileObject)ToolController.Instance.hoveringOver;
             tileObject.DefaultColor();
+            tileObject.ClearValueTexts();
         }
     }
 }
