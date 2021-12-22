@@ -58,6 +58,7 @@ public class TileObject : MonoBehaviour
 
     public virtual void Terminate()
     {
+        GameManager.Instance.addedScoreText.text = "";
         if (!preview)
         {
             WorldManager.Instance.tileObjects.Remove(this);
