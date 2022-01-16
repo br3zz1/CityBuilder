@@ -27,6 +27,6 @@ public class SceneFade : MonoBehaviour
     {
         LeanTween.value(0, 1, 0.5f).setOnUpdate(UpdateFade).setIgnoreTimeScale(true);
         fade.gameObject.SetActive(true);
-        LeanTween.delayedCall(0.5f, () => { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }).setIgnoreTimeScale(true);
+        LeanTween.delayedCall(0.5f, () => { SceneManager.LoadScene("Loading"); }).setIgnoreTimeScale(true);
     }
 }

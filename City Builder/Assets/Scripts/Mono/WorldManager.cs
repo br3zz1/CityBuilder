@@ -36,7 +36,7 @@ public class WorldManager : MonoBehaviour
     public List<TileObject> tileObjects;
 
     public int calculatedScore;
-    
+
     void Awake()
     {
         Instance = this;
@@ -49,7 +49,7 @@ public class WorldManager : MonoBehaviour
 
     void Start()
     {
-        if(testMode)
+        if (testMode)
         {
             GenerateWorld();
             return;
@@ -65,6 +65,36 @@ public class WorldManager : MonoBehaviour
         else
         {
             Debug.Log("Loading level");
+        }
+    }
+
+    void Update()
+    {
+                
+    }
+
+    class UpdateIterator {
+
+        int i;
+        int inc;
+        Func<int, bool> f;
+        Action<int> act;
+
+        public UpdateIterator(int i, int inc, Func<int, bool> f, Action<int> act)
+        {
+            this.i = i;
+            this.inc = inc;
+            this.f = f;
+            this.act = act;
+        }
+
+        void Iterate()
+        {
+            if(f(i))
+            {
+                act(i);
+            }
+            i += inc;
         }
     }
 
