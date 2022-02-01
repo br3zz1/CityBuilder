@@ -39,18 +39,21 @@ public static class SaveSystem
         GameManager.Instance.UpdateScore(data.score);
         foreach(ObjectData od in data.objects)
         {
-            Tile tile = WorldManager.Instance.TileAt(od.coord[0], od.coord[1]);
+            WorldManager.Instance.loadQueue.Enqueue(() =>
+            {
+                Tile tile = WorldManager.Instance.TileAt(od.coord[0], od.coord[1]);
 
-            if (od.main)
-            {
-                tile.BuildTileObject(GameManager.Instance.namedPrefabs[od.name], false, false);
-                (tile.tileObject as Road).main = true;
-                tile.tileObject.Init(tile);
-            }
-            else
-            {
-                tile.BuildTileObject(GameManager.Instance.namedPrefabs[od.name], smoke: false);
-            }
+                if (od.main)
+                {
+                    tile.BuildTileObject(GameManager.Instance.namedPrefabs[od.name], false, false);
+                    (tile.tileObject as Road).main = true;
+                    tile.tileObject.Init(tile);
+                }
+                else
+                {
+                    tile.BuildTileObject(GameManager.Instance.namedPrefabs[od.name], smoke: false);
+                }
+            });
         }
         return true;
     }

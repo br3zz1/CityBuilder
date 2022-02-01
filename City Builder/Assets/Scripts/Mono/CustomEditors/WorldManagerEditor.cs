@@ -7,7 +7,7 @@ using UnityEngine;
 public class WorldManagerEditor : Editor
 {
 
-    public override void OnInspectorGUI()
+    /*public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
@@ -19,6 +19,6 @@ public class WorldManagerEditor : Editor
                 wm.Regenerate();
             }
         }
-    }
+    }*/
 
 }

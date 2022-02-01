@@ -30,7 +30,7 @@ public class TileObject : MonoBehaviour
         if (!preview)
         {
             WorldManager.Instance.tileObjects.Add(this);
-            if(!WorldManager.Instance.testMode) SaveSystem.Save();
+            //if(!WorldManager.Instance.testMode) SaveSystem.Save();
         }
         if(valueTexts == null) valueTexts = new Dictionary<TileObject, ValueTextUsed>();
         this.tile = tile;

@@ -102,6 +102,7 @@ public class BuildingCard : Card
             }
             tile.BuildTileObject(buildingPrefab);
             GameManager.Instance.UpdateScore(GameManager.Instance.score + tile.tileObject.AddedValue());
+            SaveSystem.Save();
 
             if (buildingPreview != null)
             {

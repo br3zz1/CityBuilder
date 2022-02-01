@@ -9,8 +9,6 @@ public class WorldManager : MonoBehaviour
 
     public static WorldManager Instance { get; private set; }
 
-    public bool testMode;
-
     [Header("Tree Generation Settings")]
     [SerializeField]
     private float treeNoiseScale;
@@ -18,6 +16,12 @@ public class WorldManager : MonoBehaviour
     private float treeProbability;
     [SerializeField]
     private float treeThreshold;
+    [SerializeField]
+    private float waterNoiseScale;
+    [SerializeField]
+    private float waterThreshold;
+
+    private Vector2 noiseOffset;
 
     private int worldSeed;
 
@@ -37,10 +41,15 @@ public class WorldManager : MonoBehaviour
 
     public int calculatedScore;
 
+    public Queue<Action> loadQueue;
+    private bool loadComplete;
+    private int totalJobs;
+
     void Awake()
     {
         Instance = this;
         tileObjects = new List<TileObject>();
+        loadQueue = new Queue<Action>();
         world = new Tile[worldSize, worldSize];
         tilePrefab = Resources.Load<GameObject>("Prefabs/Tile");
         roadPrefab = Resources.Load<Road>("Prefabs/TileObjects/Road");
@@ -49,11 +58,6 @@ public class WorldManager : MonoBehaviour
 
     void Start()
     {
-        if (testMode)
-        {
-            GenerateWorld();
-            return;
-        }
         if (!SaveSystem.Load())
         {
             Debug.Log("Generating new level");
@@ -66,35 +70,30 @@ public class WorldManager : MonoBehaviour
         {
             Debug.Log("Loading level");
         }
+        totalJobs = loadQueue.Count;
     }
 
     void Update()
     {
-                
-    }
-
-    class UpdateIterator {
-
-        int i;
-        int inc;
-        Func<int, bool> f;
-        Action<int> act;
-
-        public UpdateIterator(int i, int inc, Func<int, bool> f, Action<int> act)
+        float stop = Time.realtimeSinceStartup + 0.01f;
+        if(!loadComplete)
         {
-            this.i = i;
-            this.inc = inc;
-            this.f = f;
-            this.act = act;
-        }
-
-        void Iterate()
-        {
-            if(f(i))
+            while (Time.realtimeSinceStartup < stop)
             {
-                act(i);
+                if (loadQueue.Count > 0)
+                {
+                    loadQueue.Dequeue().Invoke();
+                }
+                else
+                {
+                    loadComplete = true;
+                    SaveSystem.Save();
+                    SceneFade.Instance.Loaded();
+                    break;
+                }
             }
-            i += inc;
+            float done = 1f - (float)loadQueue.Count / totalJobs;
+            SceneFade.Instance.percentSlider.value = done;
         }
     }
 
@@ -116,6 +115,7 @@ public class WorldManager : MonoBehaviour
     void GenerateWorld()
     {
         UnityEngine.Random.InitState(worldSeed);
+        noiseOffset = new Vector2(UnityEngine.Random.Range(-100000f, 100000f), UnityEngine.Random.Range(-100000f, 100000f));
         LoopCoordinates(Generation, new Vector2Int(worldSize, worldSize));
     }
 
@@ -136,56 +136,61 @@ public class WorldManager : MonoBehaviour
 
     void SpawnTile(Vector2Int coord)
     {
-        GameObject tileObj = Instantiate(tilePrefab, new Vector3(coord.x, 0, coord.y), Quaternion.Euler(90, 0, 0));
-        world[coord.x, coord.y] = tileObj.GetComponent<Tile>();
-        tileObj.name = "Tile [" + coord.x + "," + coord.y + "]";
-        tileObj.transform.parent = transform;
-        Tile tile = tileObj.GetComponent<Tile>();
-        if (coord.x < 37 || coord.x > 63 || coord.y < 37 || coord.y > 63)
+        loadQueue.Enqueue(() =>
         {
-            tile.untouchable = true;
-            //m = tileUntouchableMaterial;
-        }
-        tile.SetCoords(coord.x, coord.y);
+            GameObject tileObj = Instantiate(tilePrefab, new Vector3(coord.x, 0, coord.y), Quaternion.Euler(90, 0, 0));
+            world[coord.x, coord.y] = tileObj.GetComponent<Tile>();
+            tileObj.name = "Tile [" + coord.x + "," + coord.y + "]";
+            tileObj.transform.parent = transform;
+            Tile tile = tileObj.GetComponent<Tile>();
+            if (coord.x < 37 || coord.x > 63 || coord.y < 37 || coord.y > 63)
+            {
+                tile.untouchable = true;
+                //m = tileUntouchableMaterial;
+            }
+            tile.SetCoords(coord.x, coord.y);
+        });
     }
 
     void Generation(Vector2Int coord)
     {
-        if(testMode)
+        loadQueue.Enqueue(() =>
         {
-            TreeGeneration(coord);
-            return;
-        }
-        if (roadLayout[coord.x, coord.y] != RoadType.None)
-        {
-            if(roadLayout[coord.x, coord.y] == RoadType.Main)
+            if (roadLayout[coord.x, coord.y] != RoadType.None)
             {
-                world[coord.x, coord.y].BuildTileObject(roadPrefab, false, false);
-                ((Road)world[coord.x, coord.y].tileObject).main = true;
-                world[coord.x, coord.y].tileObject.Init(world[coord.x, coord.y]);
+                if (roadLayout[coord.x, coord.y] == RoadType.Main)
+                {
+                    world[coord.x, coord.y].BuildTileObject(roadPrefab, false, false);
+                    ((Road)world[coord.x, coord.y].tileObject).main = true;
+                    world[coord.x, coord.y].tileObject.Init(world[coord.x, coord.y]);
+                }
+                else if (coord.x > 38 && coord.x < 62 && coord.y > 38 && coord.y < 62)
+                {
+                    world[coord.x, coord.y].BuildTileObject(roadPrefab, smoke: false);
+                }
             }
-            else if(coord.x > 38 && coord.x < 62 && coord.y > 38 && coord.y < 62)
+            else
             {
-                world[coord.x, coord.y].BuildTileObject(roadPrefab, smoke: false);
+                if(!NoiseGeneration(coord, noiseOffset, "Water", waterNoiseScale, waterThreshold)) {
+                    NoiseGeneration(coord, noiseOffset, "Tree", treeNoiseScale, treeThreshold, treeProbability);
+                }
             }
-        }
-        else
-        {
-            TreeGeneration(coord);
-        }
+        });
     }
 
-    void TreeGeneration(Vector2Int coord)
+    bool NoiseGeneration(Vector2Int coord, Vector2 offset, string prefabName, float noiseScale, float threshold, float probability=100)
     {
         //if (UnityEngine.Random.Range(0, 20) < 1) world[coord.x, coord.y].BuildTileObject(GameManager.Instance.namedPrefabs["Tree"], smoke: false);
-        float pX = coord.x * treeNoiseScale * Mathf.PI;
-        float pY = coord.y * treeNoiseScale * Mathf.PI;
+        float pX = coord.x * noiseScale * Mathf.PI + offset.x;
+        float pY = coord.y * noiseScale * Mathf.PI + offset.y;
         float value = Mathf.Clamp01(Mathf.PerlinNoise(pX, pY));
-        if(value > treeThreshold)
+        if(value > threshold)
         {
-            float p = Mathf.Pow(UnityEngine.Random.Range(0f,1f), treeProbability);
-            if(value > p) world[coord.x, coord.y].BuildTileObject(GameManager.Instance.namedPrefabs["Tree"], smoke: false);
+            float p = Mathf.Pow(UnityEngine.Random.Range(0f,1f), probability);
+            if(value > p) world[coord.x, coord.y].BuildTileObject(GameManager.Instance.namedPrefabs[prefabName], smoke: false);
+            return true;
         }
+        return false;
     }
 
     public Dictionary<string,Tile> GetNeighboursNSEW(Vector2Int coord)
