@@ -42,7 +42,7 @@ public static class SaveSystem
             WorldManager.Instance.loadQueue.Enqueue(() =>
             {
                 Tile tile = WorldManager.Instance.TileAt(od.coord[0], od.coord[1]);
-
+                if (tile == null) return;
                 if (od.main)
                 {
                     tile.BuildTileObject(GameManager.Instance.namedPrefabs[od.name], false, false);

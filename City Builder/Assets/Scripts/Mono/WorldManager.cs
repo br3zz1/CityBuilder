@@ -45,6 +45,8 @@ public class WorldManager : MonoBehaviour
     private bool loadComplete;
     private int totalJobs;
 
+    private Mesh tileMesh;
+
     void Awake()
     {
         Instance = this;
@@ -53,7 +55,7 @@ public class WorldManager : MonoBehaviour
         world = new Tile[worldSize, worldSize];
         tilePrefab = Resources.Load<GameObject>("Prefabs/Tile");
         roadPrefab = Resources.Load<Road>("Prefabs/TileObjects/Road");
-        LoopCoordinates(SpawnTile, new Vector2Int(worldSize, worldSize));
+        LoopCoordinates(SpawnTile, new Vector2Int(60, 60), new Vector2Int(20, 20));
     }
 
     void Start()
@@ -70,14 +72,18 @@ public class WorldManager : MonoBehaviour
         {
             Debug.Log("Loading level");
         }
+        loadQueue.Enqueue(() =>
+        {
+            GenerateTileMesh();
+        });
         totalJobs = loadQueue.Count;
     }
 
     void Update()
     {
-        float stop = Time.realtimeSinceStartup + 0.01f;
         if(!loadComplete)
         {
+            float stop = Time.realtimeSinceStartup + 0.01f;
             while (Time.realtimeSinceStartup < stop)
             {
                 if (loadQueue.Count > 0)
@@ -116,7 +122,7 @@ public class WorldManager : MonoBehaviour
     {
         UnityEngine.Random.InitState(worldSeed);
         noiseOffset = new Vector2(UnityEngine.Random.Range(-100000f, 100000f), UnityEngine.Random.Range(-100000f, 100000f));
-        LoopCoordinates(Generation, new Vector2Int(worldSize, worldSize));
+        LoopCoordinates(Generation, new Vector2Int(60, 60), new Vector2Int(20,20));
     }
 
     public void Regenerate()
@@ -132,6 +138,11 @@ public class WorldManager : MonoBehaviour
     public Tile TileAt(int x, int y)
     {
         return world[x, y];
+    }
+
+    public Tile TileAt(Vector2Int coord)
+    {
+        return world[coord.x, coord.y];
     }
 
     void SpawnTile(Vector2Int coord)
@@ -199,22 +210,56 @@ public class WorldManager : MonoBehaviour
 
         if(coord.y < 99)
         {
-            tileDic.Add("N", world[coord.x, coord.y + 1]);
+            if(world[coord.x, coord.y + 1] != null) tileDic.Add("N", world[coord.x, coord.y + 1]);
         }
         if (coord.y > 0)
         {
-            tileDic.Add("S", world[coord.x, coord.y - 1]);
+            if (world[coord.x, coord.y - 1] != null) tileDic.Add("S", world[coord.x, coord.y - 1]);
         }
         if (coord.x < 99)
         {
-            tileDic.Add("E", world[coord.x + 1, coord.y]);
+            if (world[coord.x + 1, coord.y] != null) tileDic.Add("E", world[coord.x + 1, coord.y]);
         }
         if (coord.x > 0)
         {
-            tileDic.Add("W", world[coord.x - 1, coord.y]);
+            if (world[coord.x - 1, coord.y] != null) tileDic.Add("W", world[coord.x - 1, coord.y]);
         }
 
         return tileDic;
+    }
+
+    void GenerateTileMesh()
+    {
+        Debug.Log("Generating mesh");
+        tileMesh = new Mesh();
+        List<Vector3> verts = new List<Vector3>();
+        List<int> indices = new List<int>();
+        List<Vector2> uvs = new List<Vector2>();
+        LoopCoordinates((Vector2Int coord) => { Vert(coord, ref verts, ref indices, ref uvs); }, Vector2Int.one * 60, Vector2Int.one * 20);
+        tileMesh.vertices = verts.ToArray();
+        tileMesh.triangles = indices.ToArray();
+        tileMesh.uv = uvs.ToArray();
+        tileMesh.RecalculateNormals();
+        GetComponent<MeshFilter>().mesh = tileMesh;
+    }
+
+    void Vert(Vector2Int coord, ref List<Vector3> verts, ref List<int> indices, ref List<Vector2> uvs)
+    {
+        
+        Tile t = TileAt(coord);
+        if (t == null) return;
+        if (t.tileObject is Water) return;
+        Vector3 vert = (Vector2)coord;
+        int i = verts.Count - 1;
+        verts.Add(new Vector3(coord.x - 0.5f, 0, coord.y - 0.5f));
+        uvs.Add(new Vector2(0,0));
+        verts.Add(new Vector3(coord.x + 0.5f, 0, coord.y - 0.5f));
+        uvs.Add(new Vector2(1, 0));
+        verts.Add(new Vector3(coord.x - 0.5f, 0, coord.y + 0.5f));
+        uvs.Add(new Vector2(0, 1));
+        verts.Add(new Vector3(coord.x + 0.5f, 0, coord.y + 0.5f));
+        uvs.Add(new Vector2(1, 1));
+        indices.AddRange( new int[]{ i + 1, i + 3, i + 2, i + 4, i + 2, i + 3 } );
     }
 
     void LoopCoordinates(Action<Vector2Int> action, Vector2Int size, Vector2Int? offset = null)
