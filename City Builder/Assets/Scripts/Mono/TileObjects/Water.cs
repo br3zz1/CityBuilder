@@ -23,7 +23,7 @@ public class Water : TileObject
         neighbours = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
         if (!preview)
         {
-            tile.GetComponent<MeshRenderer>().enabled = false;
+            //tile.GetComponent<MeshRenderer>().enabled = false;
             UpdateShores();
             UpdateNeighboursShores();
         }
@@ -53,6 +53,7 @@ public class Water : TileObject
         score = 0;
         ForeachNeighbourDo((TileObject t) => {
             if (t is Water) AddValue(t, 3);
+            if (t is House) AddValue(t, -10);
         });
 
         ForeachAirDistanceDo((ObjectDistance od) => {

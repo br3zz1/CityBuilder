@@ -16,6 +16,11 @@ public class House : TileObject
             if (od.distance < 6f && od.obj is TreeObject) AddValue(od.obj, 6);
         });
 
+        ForeachNeighbourDo((TileObject t) =>
+        {
+            if (t is Water) AddValue(t, -10);
+        });
+
         EndAddValue();
         return score;
     }

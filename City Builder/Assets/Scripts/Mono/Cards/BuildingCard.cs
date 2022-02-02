@@ -11,10 +11,12 @@ public class BuildingCard : Card
 
     private TileObject buildingPreview;
     private Vector3 previewDesiredPosition;
+    private float actualRotation = 0f;
+    private float previewDesiredRotation;
 
     private Tile lastTile;
 
-    private int rotation;
+    
     private List<int> allowedRotations;
 
     public override void Tick()
@@ -43,6 +45,13 @@ public class BuildingCard : Card
         if(buildingPreview != null)
         {
             buildingPreview.transform.position = Vector3.Lerp(buildingPreview.transform.position, previewDesiredPosition, Time.deltaTime * 10f);
+            float target = previewDesiredRotation;
+            if (previewDesiredRotation - actualRotation > 180f) target -= 360;
+            if (actualRotation - previewDesiredRotation > 180f) target += 360;
+            actualRotation = Mathf.Lerp(actualRotation, target, Time.deltaTime * 20f);
+            if (actualRotation > 360f) actualRotation -= 360f;
+            if (actualRotation < 0f) actualRotation += 360f;
+            buildingPreview.transform.rotation = Quaternion.Euler(0, actualRotation, 0);
         }
     }
 
@@ -63,7 +72,6 @@ public class BuildingCard : Card
 
         buildingPreview.DefaultColor();
 
-        Debug.Log("init");
         buildingPreview.Init(tile);
 
         // ROTATIONS
@@ -75,20 +83,17 @@ public class BuildingCard : Card
 
         if (allowedRotations.Count == 0)
         {
-            Debug.Log("no rotations");
             HoverOverTileObject(tile);
             return;
         }
-        Debug.Log("rotations");
-        if (!allowedRotations.Contains(rotation)) rotation = allowedRotations[0];
+        if (!allowedRotations.Contains((int)previewDesiredRotation)) previewDesiredRotation = allowedRotations[0];
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("RRRRRRRRRR");
-            if (allowedRotations.IndexOf(rotation) == allowedRotations.Count - 1) rotation = allowedRotations[0];
-            else rotation = allowedRotations[allowedRotations.IndexOf(rotation) + 1];
+            if (allowedRotations.IndexOf((int)previewDesiredRotation) == allowedRotations.Count - 1) previewDesiredRotation = allowedRotations[0];
+            else previewDesiredRotation = allowedRotations[allowedRotations.IndexOf((int)previewDesiredRotation) + 1];
         }
 
-        buildingPreview.transform.rotation = Quaternion.Euler(0, rotation, 0);
+        //buildingPreview.transform.rotation = Quaternion.Euler(0, previewDesiredRotation, 0);
 
         previewDesiredPosition = tile.transform.position + Vector3.up / 4f;
 
@@ -135,7 +140,7 @@ public class BuildingCard : Card
                 return false;
             }
             tile.BuildTileObject(buildingPrefab);
-            tile.tileObject.transform.rotation = Quaternion.Euler(0, rotation, 0);
+            tile.tileObject.transform.rotation = Quaternion.Euler(0, previewDesiredRotation, 0);
             GameManager.Instance.UpdateScore(GameManager.Instance.score + tile.tileObject.AddedValue());
             SaveSystem.Save();
 

@@ -23,6 +23,7 @@ public class TileObject : MonoBehaviour
 
     public List<int> allowedRotations;
     public bool roadSide;
+    public bool nonRotable;
 
     public string ObjectName { get { return objectName; } }
     [SerializeField]
@@ -42,7 +43,8 @@ public class TileObject : MonoBehaviour
         if(preview)
         {
             allowedRotations = new List<int>();
-            if (roadSide) AllowRoadsideRotations();
+            if (nonRotable) allowedRotations.Add(0);
+            else if (roadSide) AllowRoadsideRotations();
             else allowedRotations.AddRange(new int[] { 0, 90, 180, 270 });
         }
     }
@@ -180,7 +182,7 @@ public class TileObject : MonoBehaviour
             if (valueTexts.ContainsKey(obj))
             {
                 valueTexts[obj].used = true;
-                valueTexts[obj].obj.text = (value > 0 ? "+": "-") + value;
+                valueTexts[obj].obj.text = (value > 0 ? "+": "") + value;
             }
             else
             {
