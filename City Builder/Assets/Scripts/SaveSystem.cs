@@ -17,6 +17,9 @@ public static class SaveSystem
             od.coord = new int[2];
             od.coord[0] = Mathf.RoundToInt(to.transform.position.x);
             od.coord[1] = Mathf.RoundToInt(to.transform.position.z);
+            //if (to is House) Debug.Log(to.transform.localRotation.eulerAngles.y);
+            od.rotation = Mathf.RoundToInt(to.transform.localRotation.eulerAngles.y);
+            //if (to is House) Debug.Log(od.rotation);
             od.name = to.ObjectName;
             if (to is Road) od.main = ((Road)to).main;
             objects.Add(od);
@@ -52,6 +55,7 @@ public static class SaveSystem
                 else
                 {
                     tile.BuildTileObject(GameManager.Instance.namedPrefabs[od.name], smoke: false);
+                    tile.tileObject.transform.rotation = Quaternion.Euler(0, od.rotation, 0);
                 }
             });
         }
@@ -70,6 +74,7 @@ public class JsonData
 public class ObjectData
 {
     public int[] coord;
+    public int rotation;
     public string name;
     public bool main;
 }

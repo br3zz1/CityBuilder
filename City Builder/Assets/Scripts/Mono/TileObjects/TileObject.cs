@@ -21,6 +21,9 @@ public class TileObject : MonoBehaviour
 
     private bool negative;
 
+    public List<int> allowedRotations;
+    public bool roadSide;
+
     public string ObjectName { get { return objectName; } }
     [SerializeField]
     private string objectName;
@@ -36,6 +39,12 @@ public class TileObject : MonoBehaviour
         this.tile = tile;
         neighbours = WorldManager.Instance.GetNeighboursNSEW(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
         defaultColors = new List<Color>();
+        if(preview)
+        {
+            allowedRotations = new List<int>();
+            if (roadSide) AllowRoadsideRotations();
+            else allowedRotations.AddRange(new int[] { 0, 90, 180, 270 });
+        }
     }
 
     public virtual void OnMouseEnter()
@@ -200,6 +209,29 @@ public class TileObject : MonoBehaviour
         {
             Destroy(valueTexts[t].obj.gameObject);
             valueTexts.Remove(t);
+        }
+    }
+
+    private void AllowRoadsideRotations()
+    {
+        foreach (KeyValuePair<string, Tile> n in neighbours)
+        {
+            if (n.Key == "N")
+            {
+                if (n.Value.tileObject is Road) allowedRotations.Add(180);
+            }
+            if (n.Key == "S")
+            {
+                if (n.Value.tileObject is Road) allowedRotations.Add(0);
+            }
+            if (n.Key == "E")
+            {
+                if (n.Value.tileObject is Road) allowedRotations.Add(270);
+            }
+            if (n.Key == "W")
+            {
+                if (n.Value.tileObject is Road) allowedRotations.Add(90);
+            }
         }
     }
 

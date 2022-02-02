@@ -14,12 +14,16 @@ public class BuildingCard : Card
 
     private Tile lastTile;
 
+    private int rotation;
+    private List<int> allowedRotations;
+
     public override void Tick()
     {
+        if (allowedRotations == null) allowedRotations = new List<int>();
         if (ToolController.Instance.hoveringOver is Tile)
         {
             Tile tile = (Tile)ToolController.Instance.hoveringOver;
-            if(tile != lastTile)
+            if(tile != lastTile || Input.GetKeyDown(KeyCode.R))
             {
                 lastTile = tile;
                 GameManager.Instance.addedScoreText.text = "";
@@ -59,7 +63,32 @@ public class BuildingCard : Card
 
         buildingPreview.DefaultColor();
 
+        Debug.Log("init");
         buildingPreview.Init(tile);
+
+        // ROTATIONS
+        allowedRotations.Clear();
+        foreach (int r in buildingPreview.allowedRotations)
+        {
+            allowedRotations.Add(r);
+        }
+
+        if (allowedRotations.Count == 0)
+        {
+            Debug.Log("no rotations");
+            HoverOverTileObject(tile);
+            return;
+        }
+        Debug.Log("rotations");
+        if (!allowedRotations.Contains(rotation)) rotation = allowedRotations[0];
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("RRRRRRRRRR");
+            if (allowedRotations.IndexOf(rotation) == allowedRotations.Count - 1) rotation = allowedRotations[0];
+            else rotation = allowedRotations[allowedRotations.IndexOf(rotation) + 1];
+        }
+
+        buildingPreview.transform.rotation = Quaternion.Euler(0, rotation, 0);
 
         previewDesiredPosition = tile.transform.position + Vector3.up / 4f;
 
@@ -100,7 +129,13 @@ public class BuildingCard : Card
                     return false;
                 }
             }
+            if(allowedRotations.Count == 0)
+            {
+                TooltipSystem.Instance.Show("", "This building must be placed roadside.", Color.red, 2f);
+                return false;
+            }
             tile.BuildTileObject(buildingPrefab);
+            tile.tileObject.transform.rotation = Quaternion.Euler(0, rotation, 0);
             GameManager.Instance.UpdateScore(GameManager.Instance.score + tile.tileObject.AddedValue());
             SaveSystem.Save();
 

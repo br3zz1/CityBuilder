@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     public GameObject menu;
+    public GameObject optionsMenu;
     public GameObject cardHolder;
 
     public Button abandonCityButton;
@@ -25,6 +26,8 @@ public class UIManager : MonoBehaviour
     private Action<bool> boolAction;
     private bool pausedBefore;
 
+    private bool options = false;
+
     private void Awake()
     {
         Instance = this;
@@ -36,9 +39,16 @@ public class UIManager : MonoBehaviour
         LeanTween.moveY(cardHolder, -200f, animationTime).setEaseInOutCubic().setIgnoreTimeScale(true);
     }
 
+    public void OptionsMenu()
+    {
+        options = true;
+        LeanTween.moveLocalX(optionsMenu, 640f, animationTime).setEaseInOutCubic().setIgnoreTimeScale(true);
+    }
+
     public void Game()
     {
         LeanTween.moveLocalX(menu, -1065f, animationTime).setEaseInOutCubic().setIgnoreTimeScale(true);
+        LeanTween.moveLocalX(optionsMenu, 1065f, animationTime).setEaseInOutCubic().setIgnoreTimeScale(true);
         LeanTween.moveY(cardHolder, 0, animationTime).setEaseInOutCubic().setIgnoreTimeScale(true);
     }
 
@@ -94,6 +104,19 @@ public class UIManager : MonoBehaviour
             LeanTween.cancelAll();
             File.Delete(Application.persistentDataPath + "/save.json");
             SceneFade.Instance.LoadScene();
+        }
+    }
+
+    public void OptionsButtonClick()
+    {
+        if (options)
+        {
+            options = false;
+            LeanTween.moveLocalX(optionsMenu, 1065f, animationTime).setEaseInOutCubic().setIgnoreTimeScale(true);
+        }
+        else
+        {
+            OptionsMenu();
         }
     }
 
