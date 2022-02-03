@@ -21,6 +21,8 @@ public class House : TileObject
             if (t is Water) AddValue(t, -10);
         });
 
+        AddValue(this, 15);
+
         EndAddValue();
         return score;
     }

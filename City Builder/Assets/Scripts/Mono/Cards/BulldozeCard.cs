@@ -29,10 +29,6 @@ public class BulldozeCard : Card
             {
                 tileObject.ChangeColor(Color.yellow);
             }
-            else
-            {
-                tileObject.ChangeColor(Color.red);
-            }
         }
         else
         {
