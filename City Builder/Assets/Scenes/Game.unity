@@ -3669,6 +3669,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34599515625918345aa5b692e69ba54a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  positiveValueTextColor: {r: 0.1875, g: 0.75, b: 0.1875, a: 1}
+  negativeValueTextColor: {r: 0.75, g: 0.1875, b: 0.1875, a: 1}
   SmokeEffect: {fileID: 2914985076235631079, guid: 46b2c7e3dc60b7c4c82ed5354ba1dd67, type: 3}
   scoreText: {fileID: 1496005406}
   addedScoreText: {fileID: 1442548661}

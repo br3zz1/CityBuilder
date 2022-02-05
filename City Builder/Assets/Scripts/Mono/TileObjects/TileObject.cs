@@ -182,12 +182,14 @@ public class TileObject : MonoBehaviour
             if (valueTexts.ContainsKey(obj))
             {
                 valueTexts[obj].used = true;
+                valueTexts[obj].obj.color = value > 0 ? GameManager.Instance.positiveValueTextColor : GameManager.Instance.negativeValueTextColor;
                 valueTexts[obj].obj.text = (value > 0 ? "+": "") + value;
             }
             else
             {
                 GameObject val = Instantiate(WorldManager.Instance.valueTextPrefab, WorldManager.Instance.valueTextContainer.transform);
                 Text txt = val.GetComponent<Text>();
+                txt.color = value > 0 ? GameManager.Instance.positiveValueTextColor : GameManager.Instance.negativeValueTextColor;
                 txt.text = (value > 0 ? "+" : "") + value;
                 val.GetComponent<ValueText>().parent = obj;
                 val.transform.position = Camera.main.WorldToScreenPoint(obj.transform.position);

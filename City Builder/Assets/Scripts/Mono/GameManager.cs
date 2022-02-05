@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
+    public Color positiveValueTextColor;
+    public Color negativeValueTextColor;
+
     public GameObject SmokeEffect;
 
     public Text scoreText;
