@@ -14,7 +14,7 @@ public class PointsEffect : MonoBehaviour
         Instance = this;
         points = new List<Point>();
         pointPrefab = Resources.Load<GameObject>("Prefabs/Point");
-        for(int i = 0; i < 100)
+        for(int i = 0; i < 100; i++)
         {
             Point point = Instantiate(pointPrefab).GetComponent<Point>();
             points.Add(point);
