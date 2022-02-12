@@ -8,11 +8,7 @@ using UnityEngine.UI;
 public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
 
-    [Header("General")]
-    [SerializeField]
-    private string cardName;
-    [SerializeField]
-    private int cost;
+    public string cardName;
 
     public Vector3 desiredPosition;
     public bool hoverable;

@@ -58,7 +58,6 @@ public class BulldozeCard : Card
             tileObject.tile.TerminateTileObject();
             Return();
             CardManager.Instance.RemoveCard(this);
-            CardManager.Instance.AddCard(Random.Range(0, 3));
             return true;
         }
         else if (ToolController.Instance.hoveringOver == null)

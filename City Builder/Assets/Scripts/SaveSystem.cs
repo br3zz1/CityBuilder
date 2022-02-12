@@ -26,6 +26,15 @@ public static class SaveSystem
         }
         data.objects = objects.ToArray();
         data.score = GameManager.Instance.score;
+        data.lastMilestone = GameManager.Instance.lastMilestone;
+        data.nextMilestone = GameManager.Instance.nextMilestone;
+
+        data.cards = new string[CardManager.Instance.holdingCards.Count];
+
+        for (int i = 0; i < CardManager.Instance.holdingCards.Count; i++)
+        {
+            data.cards[i] = CardManager.Instance.holdingCards[i].cardName;
+        }
 
         string json = JsonUtility.ToJson(data);
         string path = Application.persistentDataPath + "/save.json";
@@ -39,7 +48,16 @@ public static class SaveSystem
         if (!File.Exists(path)) return false;
         string json = File.ReadAllText(path);
         JsonData data = JsonUtility.FromJson<JsonData>(json);
+
+        GameManager.Instance.lastMilestone = data.lastMilestone;
+        GameManager.Instance.nextMilestone = data.nextMilestone;
         GameManager.Instance.UpdateScore(data.score);
+
+        foreach(string cardName in data.cards)
+        {
+            CardManager.Instance.AddCard(cardName);
+        }
+
         foreach(ObjectData od in data.objects)
         {
             WorldManager.Instance.loadQueue.Enqueue(() =>
@@ -67,6 +85,9 @@ public static class SaveSystem
 public class JsonData
 {
     public int score;
+    public int lastMilestone;
+    public int nextMilestone;
+    public string[] cards;
     public ObjectData[] objects;
 }
 

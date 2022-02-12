@@ -17,7 +17,17 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public Text addedScoreText;
 
+    public Text lastMilestoneText;
+    public Text nextMilestoneText;
+
+    public Slider milestoneSlider;
+
     public int score { get; private set; }
+
+    [HideInInspector]
+    public int nextMilestone;
+    [HideInInspector]
+    public int lastMilestone;
 
     public bool paused { get; private set; }
 
@@ -42,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-
+        UnpauseGame();
     }
 
     void Update()
@@ -78,7 +88,26 @@ public class GameManager : MonoBehaviour
 
     public void UpdateScore(int score)
     {
+        while (score >= nextMilestone)
+        {
+            lastMilestone = nextMilestone;
+            float mtn = nextMilestone / 25f;
+            mtn *= 1.5f;
+            nextMilestone = Mathf.CeilToInt(mtn) * 25;
+
+            CardManager.Instance.AddRandomCard();
+            CardManager.Instance.AddRandomCard();
+            CardManager.Instance.AddRandomCard();
+            CardManager.Instance.AddRandomCard();
+
+            PauseGame(false);
+        }
+
         this.score = score;
-        scoreText.text = score.ToString();
+        scoreText.text = score.ToString() + " / " + nextMilestone;
+        milestoneSlider.value = (float)(score - lastMilestone) / (nextMilestone - lastMilestone);
+
+        lastMilestoneText.text = lastMilestone.ToString();
+        nextMilestoneText.text = nextMilestone.ToString();
     }
 }

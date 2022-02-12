@@ -62,6 +62,14 @@ public class WorldManager : MonoBehaviour
     {
         if (!SaveSystem.Load())
         {
+            GameManager.Instance.lastMilestone = 0;
+            GameManager.Instance.nextMilestone = 50;
+            GameManager.Instance.UpdateScore(0);
+
+            CardManager.Instance.AddCard("House");
+            CardManager.Instance.AddCard("House");
+            CardManager.Instance.AddCard("House");
+
             Debug.Log("Generating new level");
             worldSeed = UnityEngine.Random.Range(0, 2000000);
             RoadGenerator.townRadius = 7;

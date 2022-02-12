@@ -6,11 +6,14 @@ public class CardManager : MonoBehaviour
 {
     public static CardManager Instance;
 
-    [SerializeField]
-    private CardInspector[] cardIPs;
+    public List<CardInspector> cardIPs;
 
-    private List<Card> holdingCards;
+    private int totalCardCount;
 
+    [HideInInspector]
+    public List<Card> holdingCards;
+
+    [HideInInspector]
     public Card hoveringOver;
 
     // Start is called before the first frame update
@@ -18,19 +21,11 @@ public class CardManager : MonoBehaviour
     {
         Instance = this;
         holdingCards = new List<Card>();
-        AddCard(Random.Range(0, 3));
-        AddCard(Random.Range(0, 3));
-        AddCard(Random.Range(0, 3));
-        AddCard(Random.Range(0, 3));
-        AddCard(Random.Range(0, 3));
-        AddCard(Random.Range(0, 3));
-        AddCard(Random.Range(0, 3));
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        foreach (CardInspector cip in cardIPs)
+        {
+            totalCardCount += cip.cardCount;
+        }
     }
 
     public void UpdateCardPositions()
@@ -55,14 +50,45 @@ public class CardManager : MonoBehaviour
     }
 
 
-    public void AddCard(int cardIPindex)
+    private void AddCard(Card cardPrefab)
     {
-        GameObject cardGo = Instantiate(cardIPs[cardIPindex].card.gameObject, new Vector3(-100f, 0, 0), Quaternion.identity);
+        GameObject cardGo = Instantiate(cardPrefab.gameObject, new Vector3(-100f, 0, 0), Quaternion.identity);
         cardGo.transform.SetParent(transform, true);
         cardGo.transform.localScale = Vector3.one;
         Card card = cardGo.GetComponent<Card>();
         holdingCards.Insert(0, card);
         UpdateCardPositions();
+    }
+
+    public void AddRandomCard()
+    {
+        int rCard = Random.Range(0, totalCardCount);
+
+        int i = 0;
+        foreach (CardInspector cip in cardIPs)
+        {
+            for(int j = 0; j < cip.cardCount; j++)
+            {
+                if (i == rCard)
+                {
+                    AddCard(cip.card);
+                    return;
+                }
+                i++;
+            }
+        }
+    }
+
+    public void AddCard(string name)
+    {
+        foreach(CardInspector cip in cardIPs)
+        {
+            if(cip.card.cardName == name)
+            {
+                AddCard(cip.card);
+                break;
+            }
+        }
     }
 
     public void RemoveCard(Card card)

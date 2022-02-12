@@ -158,7 +158,6 @@ public class BuildingCard : Card
         }
         Return();
         CardManager.Instance.RemoveCard(this);
-        CardManager.Instance.AddCard(Random.Range(0,3));
         return true;
     }
 
