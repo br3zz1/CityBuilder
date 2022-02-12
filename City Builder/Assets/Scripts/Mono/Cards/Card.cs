@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
 
     public string cardName;
@@ -78,7 +78,7 @@ public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPoi
         CardManager.Instance.UpdateCardPositions();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         mouse_click = true;
     }

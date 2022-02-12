@@ -49,16 +49,18 @@ public static class SaveSystem
         string json = File.ReadAllText(path);
         JsonData data = JsonUtility.FromJson<JsonData>(json);
 
-        GameManager.Instance.lastMilestone = data.lastMilestone;
-        GameManager.Instance.nextMilestone = data.nextMilestone;
-        GameManager.Instance.UpdateScore(data.score);
+        List<string> cards = new List<string>(data.cards);
 
-        foreach(string cardName in data.cards)
+        foreach(string cardName in cards)
         {
             CardManager.Instance.AddCard(cardName);
         }
 
-        foreach(ObjectData od in data.objects)
+        GameManager.Instance.lastMilestone = data.lastMilestone;
+        GameManager.Instance.nextMilestone = data.nextMilestone;
+        GameManager.Instance.UpdateScore(data.score);
+
+        foreach (ObjectData od in data.objects)
         {
             WorldManager.Instance.loadQueue.Enqueue(() =>
             {

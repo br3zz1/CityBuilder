@@ -50,7 +50,7 @@ public class CardManager : MonoBehaviour
     }
 
 
-    private void AddCard(Card cardPrefab)
+    public void AddCard(Card cardPrefab)
     {
         GameObject cardGo = Instantiate(cardPrefab.gameObject, new Vector3(-100f, 0, 0), Quaternion.identity);
         cardGo.transform.SetParent(transform, true);

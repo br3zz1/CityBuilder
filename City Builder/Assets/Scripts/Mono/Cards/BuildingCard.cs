@@ -98,7 +98,7 @@ public class BuildingCard : Card
         previewDesiredPosition = tile.transform.position + Vector3.up / 4f;
 
         int v = buildingPreview.AddedValue();
-        GameManager.Instance.addedScoreText.text = (v < 0 ? "" : "+") + v;
+        GameManager.Instance.UpdatePreviewScore(v);
     }
 
     private void HoverOverTileObject(Tile tile)

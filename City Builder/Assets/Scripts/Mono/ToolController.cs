@@ -34,14 +34,32 @@ public class ToolController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.paused == false)
+        if(GameManager.Instance.paused == false && useable != null)
         {
+            /*
             useable?.Tick();
             if (Input.GetMouseButtonDown(0))
             {
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {
                     useable?.Use();
+                }
+            }*/
+
+            if (Input.GetMouseButton(0))
+            {
+                useable?.Tick();
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    useable?.Use();
+                    useable?.Return();
+                }
+                else
+                {
+                    useable?.Return();
                 }
             }
         }

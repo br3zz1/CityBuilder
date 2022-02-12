@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
     public Text nextMilestoneText;
 
     public Slider milestoneSlider;
+    public Slider previewMilestoneSlider;
+
+    public GameObject milestoneGameObject;
+    public GameObject endGameObject;
 
     public int score { get; private set; }
 
@@ -30,6 +34,10 @@ public class GameManager : MonoBehaviour
     public int lastMilestone;
 
     public bool paused { get; private set; }
+    private bool disableEsc;
+
+    public bool endGame;
+    [HideInInspector]
 
     //[SerializeField]
     //private List<TileObject> prefabs;
@@ -57,7 +65,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape) && !disableEsc)
         {
             if (paused) UnpauseGame();
             else PauseGame();
@@ -73,7 +81,10 @@ public class GameManager : MonoBehaviour
         if(pauseMenu)
         {
             UIManager.Instance.PauseMenu();
-            CameraController.Instance.desiredZoom += 5.5f;
+        }
+        else
+        {
+            disableEsc = true;
         }
     }
 
@@ -83,11 +94,13 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         paused = false;
         UIManager.Instance.Game();
-        CameraController.Instance.desiredZoom -= 5.5f;
+        disableEsc = false;
     }
 
     public void UpdateScore(int score)
     {
+        Queue<int> milestones = new Queue<int>();
+
         while (score >= nextMilestone)
         {
             lastMilestone = nextMilestone;
@@ -95,19 +108,59 @@ public class GameManager : MonoBehaviour
             mtn *= 1.5f;
             nextMilestone = Mathf.CeilToInt(mtn) * 25;
 
-            CardManager.Instance.AddRandomCard();
-            CardManager.Instance.AddRandomCard();
-            CardManager.Instance.AddRandomCard();
-            CardManager.Instance.AddRandomCard();
+            milestones.Enqueue(lastMilestone);
 
             PauseGame(false);
+            UpdatePreviewScore(0);
         }
 
+        if(milestones.Count > 0)
+        {
+            milestoneGameObject.SetActive(true);
+            MilestoneScreen.Instance.milestones = milestones;
+            MilestoneScreen.Instance.ShowScreen();
+        }
+
+        LeanTween.value(this.score, score, 1f).setOnUpdate(UpdateVis).setEaseOutCubic().setIgnoreTimeScale(true);
         this.score = score;
-        scoreText.text = score.ToString() + " / " + nextMilestone;
-        milestoneSlider.value = (float)(score - lastMilestone) / (nextMilestone - lastMilestone);
+        
 
         lastMilestoneText.text = lastMilestone.ToString();
         nextMilestoneText.text = nextMilestone.ToString();
+
+        LeanTween.delayedCall(0.1f, () =>
+        {
+            if (CardManager.Instance.holdingCards.Count == 0 && milestones.Count == 0) EndGame();
+        });
+    }
+
+    private void UpdateVis(float value)
+    {
+        scoreText.text = ((int)value).ToString() + " / " + nextMilestone;
+        milestoneSlider.value = (float)(value - lastMilestone) / (nextMilestone - lastMilestone);
+    }
+
+    public void UpdatePreviewScore(int score)
+    {
+        string txt = "";
+        if (score > 0)
+        {
+            txt = "+" + score;
+        }
+        else if(score < 0)
+        {
+            txt = score.ToString();
+        }
+        addedScoreText.text = txt;
+
+        previewMilestoneSlider.value = (float)(this.score + score - lastMilestone) / (nextMilestone - lastMilestone);
+    }
+
+    public void EndGame()
+    {
+        endGame = true;
+        PauseGame(false);
+        endGameObject.SetActive(true);
+        EndgameScreen.Instance.ShowScreen();
     }
 }

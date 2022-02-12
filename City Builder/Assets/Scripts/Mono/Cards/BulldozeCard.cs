@@ -14,11 +14,11 @@ public class BulldozeCard : Card
         {
             TileObject tileObject = (TileObject)ToolController.Instance.hoveringOver;
             if (lastTileObj == tileObject) return;
-            GameManager.Instance.addedScoreText.text = "";
+            GameManager.Instance.UpdatePreviewScore(0);
             if (lastTileObj != null) lastTileObj.ClearValueTexts();
             lastTileObj = tileObject;
             rValue = tileObject.AddedValue(true);
-            GameManager.Instance.addedScoreText.text = (rValue > 0 ? "+" : "") + rValue;
+            GameManager.Instance.UpdatePreviewScore(rValue);
 
             bool bulldozeOk = true;
             if (tileObject is Road || GameManager.Instance.score + rValue < 0)
@@ -33,7 +33,7 @@ public class BulldozeCard : Card
         else
         {
             if (lastTileObj != null) lastTileObj.ClearValueTexts();
-            GameManager.Instance.addedScoreText.text = "";
+            GameManager.Instance.UpdatePreviewScore(0);
             lastTileObj = null;
         }
     }

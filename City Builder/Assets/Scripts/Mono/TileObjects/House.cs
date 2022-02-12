@@ -13,7 +13,7 @@ public class House : TileObject
         ForeachRoadDistanceDo(RoadDistance);
 
         ForeachAirDistanceDo((ObjectDistance od) => {
-            if (od.distance < 6f && od.obj is TreeObject) AddValue(od.obj, 6);
+            if (od.distance < 3f && od.obj is TreeObject) AddValue(od.obj, 2);
         });
 
         ForeachNeighbourDo((TileObject t) =>
@@ -21,7 +21,7 @@ public class House : TileObject
             if (t is Water) AddValue(t, -10);
         });
 
-        AddValue(this, 15);
+        //AddValue(this, 15);
 
         EndAddValue();
         return score;
@@ -31,7 +31,7 @@ public class House : TileObject
     {
         if(rd.obj is House)
         {
-            AddValue(rd.obj, 5);
+            AddValue(rd.obj, 1);
         }
     }
 }
