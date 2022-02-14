@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class House : TileObject
+public class Commercial : TileObject
 {
     public override int AddedValue(bool negative = false)
     {
@@ -12,13 +12,9 @@ public class House : TileObject
 
         ForeachRoadDistanceDo(RoadDistance);
 
-        ForeachAirDistanceDo((ObjectDistance od) => {
-            if (od.distance < 3f && od.obj is TreeObject) AddValue(od.obj, 2);
-        });
-
         ForeachNeighbourDo((TileObject t) =>
         {
-            if (t is Water) AddValue(t, -10);
+            if (t is Commercial) AddValue(t, 10);
         });
 
         //AddValue(this, 15);
@@ -29,11 +25,7 @@ public class House : TileObject
 
     private void RoadDistance(ObjectDistance rd)
     {
-        if(rd.obj is House && rd.distance < 5f)
-        {
-            AddValue(rd.obj, 1);
-        }
-        else if(rd.obj is Commercial && rd.distance < 5f)
+        if (rd.obj is House && rd.distance < 5f)
         {
             AddValue(rd.obj, 2);
         }

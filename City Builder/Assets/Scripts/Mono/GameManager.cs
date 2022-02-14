@@ -159,6 +159,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         endGame = true;
+        SaveSystem.Save();
         PauseGame(false);
         endGameObject.SetActive(true);
         EndgameScreen.Instance.ShowScreen();

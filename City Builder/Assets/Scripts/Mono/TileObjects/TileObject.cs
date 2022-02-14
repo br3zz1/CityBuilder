@@ -97,8 +97,14 @@ public class TileObject : MonoBehaviour
         {
             if (child.GetComponent<MeshRenderer>() != null)
             {
-                if (def) defaultColors.Add(child.GetComponent<MeshRenderer>().material.color);
-                child.GetComponent<MeshRenderer>().material.color = color;
+                if (def)
+                {
+                    foreach(Material mat in child.GetComponent<MeshRenderer>().materials)
+                    {
+                        defaultColors.Add(mat.color);
+                        mat.color = color;
+                    }
+                }
             }
         }
     }
@@ -118,8 +124,11 @@ public class TileObject : MonoBehaviour
         {
             if (child.GetComponent<MeshRenderer>() != null)
             {
-                child.GetComponent<MeshRenderer>().material.color = defaultColors[i];
-                i++;
+                foreach(Material mat in child.GetComponent<MeshRenderer>().materials)
+                {
+                    mat.color = defaultColors[i];
+                    i++;
+                }
             }
         }
         defaultColors.Clear();

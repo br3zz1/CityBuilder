@@ -126,6 +126,11 @@ public class BuildingCard : Card
         if (ToolController.Instance.hoveringOver is Tile)
         {
             Tile tile = (Tile)ToolController.Instance.hoveringOver;
+            if(tile.untouchable)
+            {
+                TooltipSystem.Instance.Show("", "Out of bounds.", Color.red, 2f);
+                return false;
+            }
             if (tile.tileObject != null)
             {
                 if(!tile.tileObject.preview)
