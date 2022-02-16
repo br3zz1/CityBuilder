@@ -59,7 +59,10 @@ public class ToolController : MonoBehaviour
                 }
                 else
                 {
-                    useable?.Return();
+                    if(!CardSwap.Instance.Swap())
+                    {
+                        useable?.Return();
+                    }
                 }
             }
         }

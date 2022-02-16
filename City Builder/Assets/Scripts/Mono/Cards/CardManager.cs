@@ -79,6 +79,43 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    public void AddRandomCard(string not)
+    {
+        List<CardInspector> cips = new List<CardInspector>();
+        int count = 0;
+        foreach(CardInspector cip in cardIPs)
+        {
+            if (cip.card.cardName == not) continue;
+            cips.Add(cip);
+            count += cip.cardCount;
+        }
+
+        int rCard = Random.Range(0, count);
+
+        int i = 0;
+        foreach (CardInspector cip in cips)
+        {
+            for (int j = 0; j < cip.cardCount; j++)
+            {
+                if (i == rCard)
+                {
+                    AddCard(cip.card);
+                    return;
+                }
+                i++;
+            }
+        }
+    }
+
+    public int GetCardCount(Card card)
+    {
+        foreach(CardInspector cp in cardIPs)
+        {
+            if (cp.card.name == card.name) return cp.cardCount;
+        }
+        return 0;
+    }
+
     public void AddCard(string name)
     {
         foreach(CardInspector cip in cardIPs)

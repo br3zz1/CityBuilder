@@ -116,7 +116,7 @@ public class MilestoneScreen : MonoBehaviour
 
     public void ChoiceTwoClick()
     {
-        Debug.Log("neni hotovo");
+        GameManager.Instance.cardSwaps++;
         HideScreen();
     }
 

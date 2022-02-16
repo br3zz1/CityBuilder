@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public int lastMilestone;
 
+    public int cardSwaps;
+
     public bool paused { get; private set; }
     private bool disableEsc;
 
