@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Commercial : TileObject
+public class Warehouse : TileObject
 {
+    
     public override int AddedValue(bool negative = false)
     {
         base.AddedValue(negative);
@@ -14,7 +15,7 @@ public class Commercial : TileObject
 
         ForeachNeighbourDo((TileObject t) =>
         {
-            if (t is Commercial) AddValue(t, 4);
+            if (t is Warehouse) AddValue(t, 4);
         });
 
         //AddValue(this, 15);
@@ -25,11 +26,7 @@ public class Commercial : TileObject
 
     private void RoadDistance(ObjectDistance rd)
     {
-        if (rd.obj is House && rd.distance < 5f)
-        {
-            AddValue(rd.obj, 2);
-        }
-        else if(rd.obj is Warehouse && rd.distance < 8f)
+        if (rd.obj is Commercial && rd.distance < 8f)
         {
             AddValue(rd.obj, 6);
         }
