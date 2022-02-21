@@ -28,6 +28,13 @@ public class TileObject : MonoBehaviour
     public string ObjectName { get { return objectName; } }
     [SerializeField]
     private string objectName;
+
+    public string ObjectDesc { get { return objectDesc; } }
+    [SerializeField]
+    private string objectDesc;
+
+    private float tooltipCooldown;
+    private bool tooltip;
     
     public virtual void Init(Tile tile)
     {
@@ -49,16 +56,39 @@ public class TileObject : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if((object)ToolController.Instance.hoveringOver == this)
+        {
+            if (!tooltip)
+            {
+                tooltipCooldown -= Time.deltaTime;
+                if (tooltipCooldown < 0)
+                {
+                    tooltip = true;
+                    TooltipSystem.Instance.Show(objectName, objectDesc, Color.grey);
+                }
+            }
+        }
+        
+    }
+
     public virtual void OnMouseEnter()
     {
         if (tile.untouchable) return;
         ToolController.Instance.hoveringOver = this;
+        tooltipCooldown = 1f;
     }
 
     public virtual void OnMouseExit()
     {
         if ((object)ToolController.Instance.hoveringOver == this) ToolController.Instance.hoveringOver = null;
         if(defaultColors.Count > 0) DefaultColor();
+        if(tooltip)
+        {
+            tooltip = false;
+            TooltipSystem.Instance.Hide();
+        }
     }
 
     public virtual int AddedValue(bool negative = false)

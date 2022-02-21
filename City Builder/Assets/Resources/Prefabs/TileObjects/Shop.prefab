@@ -492,7 +492,8 @@ MonoBehaviour:
   allowedRotations: 
   roadSide: 1
   nonRotable: 0
-  objectName: 
+  objectName: Shop
+  objectDesc: A place where people buy stuff.
 --- !u!65 &7154894356463237269
 BoxCollider:
   m_ObjectHideFlags: 0

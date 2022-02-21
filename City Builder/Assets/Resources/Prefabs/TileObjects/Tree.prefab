@@ -222,4 +222,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preview: 0
+  allowedRotations: 
+  roadSide: 0
+  nonRotable: 0
   objectName: Tree
+  objectDesc: Makes a good living environment.

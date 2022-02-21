@@ -314,6 +314,7 @@ MonoBehaviour:
   roadSide: 0
   nonRotable: 0
   objectName: Road
+  objectDesc: Connects buildings.
   roadColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
   mainRoadColor: {r: 0.29411766, g: 0.29411766, b: 0.29411766, a: 1}
   sidewalkColor: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 1}

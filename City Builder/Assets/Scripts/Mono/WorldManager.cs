@@ -9,7 +9,7 @@ public class WorldManager : MonoBehaviour
 
     public static WorldManager Instance { get; private set; }
 
-    [Header("Tree Generation Settings")]
+    [Header("Noise Generation Settings")]
     [SerializeField]
     private float treeNoiseScale;
     [SerializeField]
@@ -20,6 +20,10 @@ public class WorldManager : MonoBehaviour
     private float waterNoiseScale;
     [SerializeField]
     private float waterThreshold;
+
+    [Header("Vein Generation Settings")]
+    [SerializeField]
+    private float coalProbability;
 
     private Vector2 noiseOffset;
 
@@ -191,6 +195,7 @@ public class WorldManager : MonoBehaviour
             else
             {
                 if(!NoiseGeneration(coord, noiseOffset, "Water", waterNoiseScale, waterThreshold)) {
+                    if (RandomGeneration(coord, "Coal", coalProbability)) return;
                     NoiseGeneration(coord, noiseOffset, "Tree", treeNoiseScale, treeThreshold, treeProbability);
                 }
             }
@@ -207,6 +212,17 @@ public class WorldManager : MonoBehaviour
         {
             float p = Mathf.Pow(UnityEngine.Random.Range(0f,1f), probability);
             if(value > p) world[coord.x, coord.y].BuildTileObject(GameManager.Instance.namedPrefabs[prefabName], smoke: false);
+            return true;
+        }
+        return false;
+    }
+
+    bool RandomGeneration(Vector2Int coord, string prefabName, float probability)
+    {
+        float value = UnityEngine.Random.Range(0f, 1f);
+        if(value < probability)
+        {
+            world[coord.x, coord.y].BuildTileObject(GameManager.Instance.namedPrefabs[prefabName], smoke: false);
             return true;
         }
         return false;
