@@ -494,6 +494,7 @@ MonoBehaviour:
   nonRotable: 0
   objectName: Shop
   objectDesc: A place where people buy stuff.
+  changeColor: {fileID: 6573841803765734327}
 --- !u!65 &7154894356463237269
 BoxCollider:
   m_ObjectHideFlags: 0

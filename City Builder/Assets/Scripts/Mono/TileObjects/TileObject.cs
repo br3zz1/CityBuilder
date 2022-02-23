@@ -60,7 +60,7 @@ public class TileObject : MonoBehaviour
     {
         if((object)ToolController.Instance.hoveringOver == this)
         {
-            if (!tooltip)
+            if (!tooltip && ToolController.Instance.Useable == null)
             {
                 tooltipCooldown -= Time.deltaTime;
                 if (tooltipCooldown < 0)
