@@ -44,6 +44,7 @@ public class MilestoneScreen : MonoBehaviour
         if(!again)
         {
             LeanTween.value(0, 0.75f, animationLength).setOnUpdate(UpdateFade).setIgnoreTimeScale(true);
+            TutorialSystem.Instance.Milestone();
         }
 
         score.text = milestones.Dequeue().ToString();

@@ -77,6 +77,8 @@ public class CameraController : MonoBehaviour
         }
         if (Input.GetMouseButton(1))
         {
+            TutorialSystem.Instance.Rotated();
+
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
@@ -102,6 +104,8 @@ public class CameraController : MonoBehaviour
 
             Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             move.Normalize();
+
+            if (move.magnitude > 0.01f) TutorialSystem.Instance.Moved();
 
             move = transform.parent.parent.rotation * move;
 

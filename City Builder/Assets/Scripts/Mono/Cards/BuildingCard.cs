@@ -144,6 +144,8 @@ public class BuildingCard : Card
                 TooltipSystem.Instance.Show("", "This building must be placed roadside.", Color.red, 2f);
                 return false;
             }
+
+            TutorialSystem.Instance.PlacedDown();
             tile.BuildTileObject(buildingPrefab);
             tile.tileObject.transform.rotation = Quaternion.Euler(0, previewDesiredRotation, 0);
             GameManager.Instance.UpdateScore(GameManager.Instance.score + tile.tileObject.AddedValue());

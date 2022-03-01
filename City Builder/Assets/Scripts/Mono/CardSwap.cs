@@ -60,6 +60,7 @@ public class CardSwap : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             CardManager.Instance.RemoveCard(card);
             CardManager.Instance.AddRandomCard(card.cardName);
             GameManager.Instance.cardSwaps--;
+            TutorialSystem.Instance.Swapped();
             return true;
         }
         return false;
