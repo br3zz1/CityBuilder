@@ -110,6 +110,9 @@ public class CameraController : MonoBehaviour
             move = transform.parent.parent.rotation * move;
 
             desiredPosition += move * cameraSpeed * sSpeed * Time.deltaTime;
+
+            desiredPosition.x = Mathf.Clamp(desiredPosition.x, 50-13f, 50+13f);
+            desiredPosition.z = Mathf.Clamp(desiredPosition.z, 50-13f, 50+13f);
         }
         transform.parent.parent.position = Vector3.Lerp(transform.parent.parent.position, desiredPosition, Time.unscaledDeltaTime * cameraIntSpeed);
     }
