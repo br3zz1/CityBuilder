@@ -226,4 +226,8 @@ MonoBehaviour:
   roadSide: 0
   nonRotable: 0
   objectName: Tree
-  objectDesc: Makes a good living environment.
+  objectDesc: 'Makes a good living environment.
+
+    Likes:
+
+    House, Water'

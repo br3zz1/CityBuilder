@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuildingCard : Card
 {
+
+    [SerializeField]
+    private Text[] nameTexts;
 
     [Header("Building Card")]
     [SerializeField]
@@ -18,6 +22,16 @@ public class BuildingCard : Card
 
     
     private List<int> allowedRotations;
+
+    protected override void ViewBackSide()
+    {
+        description.text = buildingPrefab.ObjectDesc;
+        foreach(Text nameText in nameTexts)
+        {
+            nameText.text = buildingPrefab.ObjectName;
+        }
+        base.ViewBackSide();
+    }
 
     public override void Tick()
     {

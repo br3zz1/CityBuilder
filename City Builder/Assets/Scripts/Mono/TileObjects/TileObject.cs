@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class TileObject : MonoBehaviour
@@ -30,7 +31,7 @@ public class TileObject : MonoBehaviour
     private string objectName;
 
     public string ObjectDesc { get { return objectDesc; } }
-    [SerializeField]
+    [SerializeField, TextArea]
     private string objectDesc;
 
     private float tooltipCooldown;
@@ -58,7 +59,7 @@ public class TileObject : MonoBehaviour
 
     private void Update()
     {
-        if((object)ToolController.Instance.hoveringOver == this)
+        if((object)ToolController.Instance.hoveringOver == this && !EventSystem.current.IsPointerOverGameObject())
         {
             if (!tooltip && ToolController.Instance.Useable == null)
             {

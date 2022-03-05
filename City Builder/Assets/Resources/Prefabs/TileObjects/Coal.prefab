@@ -50,7 +50,11 @@ MonoBehaviour:
   roadSide: 0
   nonRotable: 0
   objectName: Coal
-  objectDesc: Place a coal mine next to this vein.
+  objectDesc: 'Place a coal mine next to this vein.
+
+    Likes:
+
+    Coal Mine'
 --- !u!65 &3313186256429621463
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -493,7 +493,11 @@ MonoBehaviour:
   roadSide: 1
   nonRotable: 0
   objectName: Shop
-  objectDesc: A place where people buy stuff.
+  objectDesc: 'A place where people buy stuff.
+
+    Likes:
+
+    House, Warehouse'
   changeColor: {fileID: 6573841803765734327}
 --- !u!65 &7154894356463237269
 BoxCollider:

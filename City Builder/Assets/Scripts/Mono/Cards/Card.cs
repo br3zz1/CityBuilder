@@ -10,7 +10,13 @@ public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPoi
 
     public string cardName;
 
+    public GameObject front;
+    public GameObject back;
+    public Text description;
+
+    [HideInInspector]
     public Vector3 desiredPosition;
+    [HideInInspector]
     public bool hoverable;
 
     public abstract bool Use();
@@ -19,11 +25,14 @@ public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPoi
     public virtual void Return()
     {
         ToolController.Instance.Useable = null;
+        ViewFrontSide();
         hoverable = true;
     }
 
     private bool mouse_over = false;
     private bool mouse_click = false;
+
+    private bool back_side;
 
     void Update()
     {
@@ -42,16 +51,52 @@ public abstract class Card : MonoBehaviour, IUseable, IPointerEnterHandler, IPoi
                 Return();
             }
 
+            if ((object)ToolController.Instance.Useable == this && Input.GetKeyDown(KeyCode.F))
+            {
+                if(back_side)
+                {
+                    ViewFrontSide();
+                }
+                else
+                {
+                    ViewBackSide();
+                }
+                
+            }
+
             mouse_click = false;
         }
     }
 
+    protected virtual void ViewBackSide()
+    {
+        if (back_side) return;
+        back_side = true;
+        LeanTween.rotateY(gameObject, 90, 0.2f).setEaseInCubic().setOnComplete(() => {
+            front.SetActive(false);
+            back.SetActive(true);
+            back.transform.localScale = new Vector3(-1,1,1);
+            LeanTween.rotateY(gameObject, 180, 0.2f).setEaseOutCubic();
+        });
+    }
+
+    protected virtual void ViewFrontSide()
+    {
+        if (!back_side) return;
+        back_side = false;
+        LeanTween.rotateY(gameObject, 90, 0.2f).setEaseInCubic().setOnComplete(() => {
+            front.SetActive(true);
+            back.SetActive(false);
+            LeanTween.rotateY(gameObject, 0, 0.2f).setEaseOutCubic();
+        });
+    }
+
     void UpdatePosition()
     {
-        Vector3 finalDesiredPos = desiredPosition + Vector3.up * 50f;
+        Vector3 finalDesiredPos = desiredPosition + Vector3.up * 40f;
         if (hoverable)
         {
-            if (mouse_over) finalDesiredPos += Vector3.up * 50f;
+            if (mouse_over) finalDesiredPos += Vector3.up * 28f;
             transform.localPosition = Vector3.Lerp(transform.localPosition, finalDesiredPos, Time.unscaledDeltaTime * 10f);
         }
         else

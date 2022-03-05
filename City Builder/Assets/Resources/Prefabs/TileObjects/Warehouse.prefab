@@ -330,7 +330,11 @@ MonoBehaviour:
   roadSide: 1
   nonRotable: 0
   objectName: Warehouse
-  objectDesc: Stores stuff from factories and sends them to shops.
+  objectDesc: 'Stores stuff from factories and sends them to shops.
+
+    Likes:
+
+    Shop'
 --- !u!65 &3683558851111905572
 BoxCollider:
   m_ObjectHideFlags: 0

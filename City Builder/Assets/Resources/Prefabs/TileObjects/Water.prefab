@@ -135,7 +135,15 @@ MonoBehaviour:
   roadSide: 0
   nonRotable: 1
   objectName: Water
-  objectDesc: Source of life.
+  objectDesc: 'Source of life.
+
+    Likes:
+
+    Tree
+
+    Dislikes:
+
+    House'
   waterColor: {r: 0.40899786, g: 0.6562901, b: 0.8584906, a: 1}
   shoreColor: {r: 0.19215688, g: 0.6039216, b: 0.21176472, a: 1}
   shores:
