@@ -71,14 +71,13 @@ public class TileObject : MonoBehaviour
                 }
             }
         }
-        
     }
 
     public virtual void OnMouseEnter()
     {
         if (tile.untouchable) return;
         ToolController.Instance.hoveringOver = this;
-        tooltipCooldown = 1f;
+        tooltipCooldown = 2f;
     }
 
     public virtual void OnMouseExit()
