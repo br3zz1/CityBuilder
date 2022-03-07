@@ -28,12 +28,8 @@ public class TutorialSystem : MonoBehaviour
     {   
         if (resetTutorial) PlayerPrefs.SetInt("tutorialDone", 0);
 
-        Debug.Log("oi");
-
         if (PlayerPrefs.GetInt("tutorialDone", 0) == 0)
         {
-            Debug.Log("oioi");
-
             tutorialState = 0;
             PlayerPrefs.SetInt("tutorialDone", 1);
 

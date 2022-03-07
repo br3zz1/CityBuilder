@@ -10,8 +10,7 @@ public class TooltipSystem : MonoBehaviour
 
     private LTDescr ltd;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Instance = this;
     }
