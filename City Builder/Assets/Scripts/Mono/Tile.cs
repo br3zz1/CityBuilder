@@ -12,11 +12,6 @@ public class Tile : MonoBehaviour
 
     public bool untouchable;
 
-    void Start()
-    {
-        
-    }
-
     public void SetCoords(int x, int y)
     {
         this.x = x;
