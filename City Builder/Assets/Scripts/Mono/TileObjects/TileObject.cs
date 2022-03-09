@@ -278,6 +278,33 @@ public class TileObject : MonoBehaviour
         }
     }
 
+    protected void AllowRotations(string objectName)
+    {
+        foreach (KeyValuePair<string, Tile> n in neighbours)
+        {
+            if (n.Key == "N")
+            {
+                if (n.Value.tileObject == null) continue;
+                if (n.Value.tileObject.objectName == objectName) allowedRotations.Add(180);
+            }
+            if (n.Key == "S")
+            {
+                if (n.Value.tileObject == null) continue;
+                if (n.Value.tileObject.objectName == objectName) allowedRotations.Add(0);
+            }
+            if (n.Key == "E")
+            {
+                if (n.Value.tileObject == null) continue;
+                if (n.Value.tileObject.objectName == objectName) allowedRotations.Add(270);
+            }
+            if (n.Key == "W")
+            {
+                if (n.Value.tileObject == null) continue;
+                if (n.Value.tileObject.objectName == objectName) allowedRotations.Add(90);
+            }
+        }
+    }
+
     public void ClearValueTexts()
     {
         foreach (KeyValuePair<TileObject, ValueTextUsed> v in valueTexts)

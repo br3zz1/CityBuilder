@@ -35,6 +35,10 @@ public class TutorialSystem : MonoBehaviour
 
             Show("Use WASD or arrow keys to move");
         }
+        else
+        {
+            tutorialState = -1;
+        }
     }
 
     private void Show(string text)
@@ -51,6 +55,7 @@ public class TutorialSystem : MonoBehaviour
     public void Skip()
     {
         Hide(() => { });
+        PlayerPrefs.SetInt("tutorialDone", 1);
         tutorialState = -1;
     }
 
@@ -86,7 +91,7 @@ public class TutorialSystem : MonoBehaviour
         if (tutorialState == 3)
         {
             tutorialState = 4;
-            Hide(() => { Show("Place the buildings in areas where they get more score. Get 50 score to get more cards"); });
+            Hide(() => { Show("Reach the next milestone to get more cards"); });
         }
     }
 

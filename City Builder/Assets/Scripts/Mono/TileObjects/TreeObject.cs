@@ -13,6 +13,8 @@ public class TreeObject : TileObject
         ForeachAirDistanceDo((ObjectDistance od) => {
             if (od.distance < 3f && od.obj is Water) AddValue(od.obj, 4);
             else if (od.distance < 3f && od.obj is House) AddValue(od.obj, 2);
+            else if (od.distance < 7f && od.obj is Coalmine) AddValue(od.obj, -1);
+            else if (od.distance < 4f && od.obj is Factory) AddValue(od.obj, -1);
         });
 
         ForeachNeighbourDo((TileObject t) => {

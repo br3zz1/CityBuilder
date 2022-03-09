@@ -1794,7 +1794,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &377598166
 GameObject:
@@ -3470,7 +3470,7 @@ Transform:
   - {fileID: 1883579389}
   - {fileID: 291999227}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &831821815
 GameObject:
@@ -3844,7 +3844,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &887645579
 MeshFilter:
@@ -4474,7 +4474,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'You get 4 random cards and:'
+  m_Text: 'You get 3 random cards and:'
 --- !u!222 &933358841
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5302,7 +5302,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1037739025
 GameObject:
@@ -5561,7 +5561,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1073161591
 GameObject:
@@ -7073,7 +7073,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1345428120
 GameObject:
@@ -7411,7 +7411,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: +1 Card Swap
+  m_Text: +2 Card Swaps
 --- !u!222 &1418273283
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7701,7 +7701,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: +2 Random Cards
+  m_Text: +1 Random Card
 --- !u!222 &1453628942
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8268,7 +8268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialText: {fileID: 1142420641}
   panel: {fileID: 1980122408}
-  resetTutorial: 1
+  resetTutorial: 0
 --- !u!1 &1685239549
 GameObject:
   m_ObjectHideFlags: 0
@@ -8573,7 +8573,7 @@ RectTransform:
   m_Children:
   - {fileID: 1007729030}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -8714,7 +8714,7 @@ RectTransform:
   - {fileID: 544784652}
   - {fileID: 1365947883}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9226,6 +9226,10 @@ MonoBehaviour:
     card: {fileID: 2013292166273541218, guid: 4dd9bc245f919e74996f20ea53f27b85, type: 3}
   - cardCount: 2
     card: {fileID: 2013292166273541218, guid: d940207434061474292fa98fe57bbd7d, type: 3}
+  - cardCount: 1
+    card: {fileID: 2013292166273541218, guid: c0359c7d05cf874419a127ad577da241, type: 3}
+  - cardCount: 1
+    card: {fileID: 2013292166273541218, guid: 0b3543f6fe280d344b6e57544aec4384, type: 3}
   holdingCards: []
   hoveringOver: {fileID: 0}
 --- !u!1 &1859451273
@@ -11128,7 +11132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2138677391
 GameObject:
@@ -11222,7 +11226,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 45, y: 130, z: 90}
 --- !u!114 &2138677394
 MonoBehaviour:
@@ -11237,64 +11241,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UsePipelineSettings: 0
---- !u!1001 &8848374281941011874
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2582967440088049002, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2582967440088049002, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2582967440088049002, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2582967440088049002, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 28
-      objectReference: {fileID: 0}
-    - target: {fileID: 2582967440088049002, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2582967440088049002, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2582967440088049002, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2582967440088049002, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2582967440088049002, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2582967440088049002, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2582967440088049002, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2923781321659088848, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_Name
-      value: vein
-      objectReference: {fileID: 0}
-    - target: {fileID: 2923781321659088848, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: dd1cf6ee669a07f4493290e5fe65b647, type: 3}

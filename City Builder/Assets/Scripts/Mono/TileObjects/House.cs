@@ -22,6 +22,8 @@ public class House : TileObject // Dìdí tøídu (komponentu) TileObject
         ForeachAirDistanceDo((ObjectDistance od) => {
             // Pokud vzdálenost je menší než 3 a typ je TreeObject, pøidá hodnotu 2
             if (od.distance < 3f && od.obj is TreeObject) AddValue(od.obj, 2);
+            else if (od.distance < 5f && od.obj is Coalmine) AddValue(od.obj, -7);
+            else if (od.distance < 5f && od.obj is Factory) AddValue(od.obj, -7);
         });
 
         ForeachNeighbourDo((TileObject t) =>

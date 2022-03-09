@@ -15,7 +15,7 @@ public class Warehouse : TileObject
 
         ForeachNeighbourDo((TileObject t) =>
         {
-            if (t is Warehouse) AddValue(t, 4);
+            if (t is Warehouse) AddValue(t, 1);
         });
 
         //AddValue(this, 15);
@@ -30,5 +30,6 @@ public class Warehouse : TileObject
         {
             AddValue(rd.obj, 6);
         }
+        else if (rd.distance < 8f && rd.obj is Factory) AddValue(rd.obj, 2);
     }
 }

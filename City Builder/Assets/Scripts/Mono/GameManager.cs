@@ -107,7 +107,8 @@ public class GameManager : MonoBehaviour
         {
             lastMilestone = nextMilestone;
             float mtn = nextMilestone / 25f;
-            mtn *= 1.5f;
+            mtn += 2;
+            mtn *= 1.1f;
             nextMilestone = Mathf.CeilToInt(mtn) * 25;
 
             milestones.Enqueue(lastMilestone);

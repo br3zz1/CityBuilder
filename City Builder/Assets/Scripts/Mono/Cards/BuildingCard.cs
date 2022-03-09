@@ -155,7 +155,7 @@ public class BuildingCard : Card
             }
             if(allowedRotations.Count == 0)
             {
-                TooltipSystem.Instance.Show("", "This building must be placed roadside.", Color.red, 2f);
+                TooltipSystem.Instance.Show("", "This object cannot be placed here.", Color.red, 2f);
                 return false;
             }
 

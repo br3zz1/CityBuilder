@@ -73,6 +73,10 @@ public class WorldManager : MonoBehaviour
             CardManager.Instance.AddCard("House");
             CardManager.Instance.AddCard("House");
             CardManager.Instance.AddCard("House");
+            CardManager.Instance.AddRandomCard("House");
+            CardManager.Instance.AddRandomCard("House");
+            CardManager.Instance.AddRandomCard("House");
+            CardManager.Instance.AddRandomCard("House");
 
             Debug.Log("Generating new level");
             worldSeed = UnityEngine.Random.Range(0, 2000000);
@@ -88,6 +92,7 @@ public class WorldManager : MonoBehaviour
         {
             GenerateTileMesh();
         });
+        
         totalJobs = loadQueue.Count;
     }
 

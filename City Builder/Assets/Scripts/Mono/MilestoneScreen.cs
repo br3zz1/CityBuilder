@@ -71,7 +71,6 @@ public class MilestoneScreen : MonoBehaviour
         delayCalls.Enqueue(() => { CardManager.Instance.AddRandomCard(); });
         delayCalls.Enqueue(() => { CardManager.Instance.AddRandomCard(); });
         delayCalls.Enqueue(() => { CardManager.Instance.AddRandomCard(); });
-        delayCalls.Enqueue(() => { CardManager.Instance.AddRandomCard(); });
 
         float delay = delayBetween;
         foreach (GameObject ab in animationObjects)
@@ -110,14 +109,13 @@ public class MilestoneScreen : MonoBehaviour
     public void ChoiceOneClick()
     {
         delayCalls.Enqueue(() => { CardManager.Instance.AddRandomCard(); });
-        delayCalls.Enqueue(() => { CardManager.Instance.AddRandomCard(); });
 
         HideScreen();
     }
 
     public void ChoiceTwoClick()
     {
-        GameManager.Instance.cardSwaps++;
+        GameManager.Instance.cardSwaps += 2;
         HideScreen();
     }
 
