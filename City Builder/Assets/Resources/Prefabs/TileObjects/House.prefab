@@ -301,7 +301,8 @@ MonoBehaviour:
 
     Dislikes:
 
-    Water'
+    Water,
+    Coalmine, Factory'
 --- !u!65 &9094068738059554682
 BoxCollider:
   m_ObjectHideFlags: 0

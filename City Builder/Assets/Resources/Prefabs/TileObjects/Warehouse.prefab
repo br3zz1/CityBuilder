@@ -334,6 +334,7 @@ MonoBehaviour:
 
     Likes:
 
+    Factory,
     Shop'
 --- !u!65 &3683558851111905572
 BoxCollider:

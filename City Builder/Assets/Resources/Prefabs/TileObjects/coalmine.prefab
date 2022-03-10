@@ -541,17 +541,17 @@ MonoBehaviour:
   roadSide: 0
   nonRotable: 0
   objectName: Coal Mine
-  objectDesc: 'Place me next to a coal vein
+  objectDesc: 'Mines raw coal and sends it to factories.
 
 
     Likes:
 
-    Coal
+    Coal,
+    Factory
 
     Dislikes:
 
-    House,
-    Tree'
+    House, Tree'
 --- !u!65 &6285548744521860001
 BoxCollider:
   m_ObjectHideFlags: 0
